@@ -7,3 +7,7 @@
 - replace CMakeLists.txt with CMakeLists.txt from clion branch
 - load CMakeLists.txt file
 - build and run Warehousemanager
+
+## Working with Code::Bocks
+-
+- curl -L -O https://github.com/if23b269/WarehouseManager/archive/refs/heads/codeBlocks.zip
