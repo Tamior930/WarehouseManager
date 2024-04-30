@@ -3,10 +3,14 @@
 //
 
 #include "raylib.h"
-
+#include "scenes/SceneMainMenu.h"
+//#define ASSETS_PATH "./assets/"
 constexpr auto SCREEN_WIDTH  = 800;
 constexpr auto SCREEN_HEIGHT = 450;
 
+//Buttons: 2 - 150, GetScreenHeight() - 100
+const int screenWidth = 1280;
+const int screenHeight = 720;
 int main()
 {
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Window title");
@@ -14,6 +18,7 @@ int main()
 
     Texture2D texture = LoadTexture(ASSETS_PATH"test.png");
 
+    /*
     while (!WindowShouldClose())
     {
         BeginDrawing();
@@ -30,6 +35,36 @@ int main()
 
         EndDrawing();
     }
+    */
+    InitWindow(screenWidth, screenHeight, "Warehouse Manager");
+    InitAudioDevice();
+    SetTargetFPS(60);
+    SetExitKey(0);
+
+    SceneMainMenu *menu = new SceneMainMenu("Warehouse Manager");
+
+    SceneManager::LoadScene(menu);
+
+    while (!GUIManager::ShouldClose)
+    {
+        BeginDrawing();
+
+        ClearBackground(DARKGRAY);
+
+        if(SceneManager::SceneLoaded())
+        {
+            SceneManager::Update();
+        }
+
+        if(WindowShouldClose())
+        {
+            GUIManager::ShouldClose = true;
+        }
+
+        EndDrawing();
+    }
+    CloseAudioDevice();
+    CloseWindow();
 
     UnloadTexture(texture);
 

@@ -4,12 +4,13 @@
 
 #ifndef SCENE_H
 #define SCENE_H
+#include <string>
 
 class Scene
 {
 public:
     virtual ~Scene(){};
-    virtual void Render(){};
+    virtual void render(){};
 private:
     std::string name;
 };

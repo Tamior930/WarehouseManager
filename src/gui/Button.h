@@ -33,14 +33,21 @@
 
 #include "raylib.h"
 
-#include <iostream>
 #include <string>
-#include <vector>
+#include <cstring>
 
 using namespace std;
 
-class ButtonR {
-
+class Button {
+    public:
+        Button(std::string name, int posX, int posY);
+        void render(void (*_setup)());
+    private:
+        bool hovered;
+        int X, Y;
+        char* name;
+        void onclick(void (*onclick)()) {onclick();};
+        int isHovered(int posX, int posY) const;
 };
 
 
