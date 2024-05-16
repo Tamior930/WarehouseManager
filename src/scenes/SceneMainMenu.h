@@ -8,6 +8,7 @@
 #include <iostream>
 #include "raylib.h"
 #include "Scene.h"
+#include "Level.h"
 #include "SimpleScene.h"
 #include "../gui/Button.h"
 #include "../util/GUIManager.h"
@@ -21,6 +22,7 @@ public:
     static void ButtonQuit();
     static void EmptyFunctionTMP();
     static void _LoadScene();
+    static void BacktoMenu();
     void render() override;
 private:
     Button *Quit, *Play, *Option, *Credit;

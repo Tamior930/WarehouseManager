@@ -30,14 +30,19 @@ void SceneMainMenu::ButtonQuit()
     GUIManager::ShouldClose = true;
 }
 
+void SceneMainMenu::BacktoMenu()
+{
+    GUIManager::ShouldClose = true;
+}
+
 void SceneMainMenu::EmptyFunctionTMP() {
 }
 
 void SceneMainMenu::_LoadScene()
 {
-    SimpleScene *Walk;
-    Walk = new SimpleScene();
-    SceneManager::LoadScene(Walk);
+    Level *level;
+    level = new Level();
+    SceneManager::LoadScene(level);
 }
 
 void SceneMainMenu::render() {

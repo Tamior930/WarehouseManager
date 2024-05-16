@@ -6,13 +6,9 @@
 
 SimpleScene::SimpleScene()
 {
-    text = new TextZone();
+
 }
 
 void SimpleScene::render()
 {
-    if(TextZone::isInstanced)
-    {
-        text->render();
-    }
 };
