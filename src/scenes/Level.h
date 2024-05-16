@@ -4,10 +4,21 @@
 
 #ifndef LEVEL_H
 #define LEVEL_H
+#include <vector>
+
+#include "Scene.h"
+
+#include "raylib.h"
 
 
 
-class Level {
+class Level  : public Scene{
+    public:
+        Level();
+        void render() override;
+private:
+    Vector2 playerCoordinates;
+    std::vector<Vector2> boxesCoordinates;
 
 };
 

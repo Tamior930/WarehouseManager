@@ -9,7 +9,6 @@
 #include "raylib.h"
 
 #include "Scene.h"
-#include "../gui/TextZone.h"
 
 class SimpleScene : public Scene
 {
@@ -17,7 +16,6 @@ public:
     SimpleScene();
     void render() override;
 private:
-    TextZone *text;
 };
 
 
