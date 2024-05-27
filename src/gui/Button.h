@@ -4,7 +4,7 @@
  |  Program Button Class          *       ButtonR Class Declarations     *                                 |
  |                                *                                      *                                 |
  ---------------------------------****************************************----------------------------------*/
- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -39,15 +39,18 @@
 using namespace std;
 
 class Button {
-    public:
-        Button(std::string name, int posX, int posY);
-        void render(void (*_setup)());
-    private:
-        bool hovered;
-        int X, Y;
-        char* name;
-        void onclick(void (*onclick)()) {onclick();};
-        int isHovered(int posX, int posY) const;
+public:
+    Button(std::string name, int posX, int posY);
+    ~Button();
+    void render(void (*_setup)());
+    void SetPosition(int posX, int posY);
+
+private:
+    bool hovered;
+    int X, Y;
+    char* name;
+    void onclick(void (*onclick)()) {onclick();};
+    int isHovered(int posX, int posY) const;
 };
 
 
