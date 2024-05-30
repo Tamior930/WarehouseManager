@@ -17,10 +17,23 @@ SceneMainMenu::SceneMainMenu(std::string title) {
 }
 
 void SceneMainMenu::initButtons() {
-    Quit = new Button("Quit", GetScreenWidth() / 2 - 150, GetScreenHeight() - 100);
-    Credit = new Button("Credits", GetScreenWidth() / 2 - 150, GetScreenHeight() - 225);
-    Option = new Button("Options", GetScreenWidth() / 2 - 150, GetScreenHeight() - 350);
-    Play = new Button("Play", GetScreenWidth() / 2 - 150, GetScreenHeight() - 475);
+    int screenWidth = Options::GetScreenWidth();
+    int screenHeight = Options::GetScreenHeight();
+
+    Quit    = new Button("Quit", screenWidth / 2 - 150, screenHeight - 100);
+    Credit  = new Button("Credits", screenWidth / 2 - 150, screenHeight - 225);
+    Option  = new Button("Options", screenWidth / 2 - 150, screenHeight - 350);
+    Play    = new Button("Play", screenWidth / 2 - 150, screenHeight - 475);
+}
+
+void SceneMainMenu::updateButtonPositions() {
+    int screenWidth = Options::GetScreenWidth();
+    int screenHeight = Options::GetScreenHeight();
+
+    Quit->SetPosition(screenWidth / 2 - 150, screenHeight - 100);
+    Credit->SetPosition(screenWidth / 2 - 150, screenHeight - 225);
+    Option->SetPosition(screenWidth / 2 - 150, screenHeight - 350);
+    Play->SetPosition(screenWidth / 2 - 150, screenHeight - 475);
 }
 
 void SceneMainMenu::ButtonQuit()
@@ -45,15 +58,20 @@ void SceneMainMenu::_LoadScene()
     SceneManager::LoadScene(level);
 }
 
+void SceneMainMenu::_LoadOption() {
+    Options *Config;
+    Config = new Options();
+    SceneManager::LoadScene(Config);
+}
+
 void SceneMainMenu::render() {
     GUIManager::WriteText(title, 0, 40, 45, 1);
 
-    DrawText("", 2, GetScreenHeight() - 22, 20, WHITE);
-
-    DrawRectangle(GetScreenWidth() / 3, 90, GetScreenWidth() / 3, 2, BLACK);
+    DrawText("", 2, Options::GetScreenHeight() - 22, 20, WHITE);
+    DrawRectangle(Options::GetScreenWidth() / 3, 90, Options::GetScreenWidth() / 3, 2, BLACK);
 
     Quit->render(ButtonQuit);
     Credit->render(EmptyFunctionTMP);
-    Option->render(EmptyFunctionTMP);
+    Option->render(_LoadOption);
     Play->render(_LoadScene);
-};
+}

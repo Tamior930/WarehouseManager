@@ -36,6 +36,15 @@ Button::Button(std::string name, int posX, int posY)
     this->name = char_array;
 };
 
+Button::~Button() {
+    delete[] name;
+}
+
+void Button::SetPosition(int posX, int posY) {
+    this->X = posX;
+    this->Y = posY;
+}
+
 int Button::isHovered(int posX, int posY) const {
     return (posX < X + 250 && posX > X && posY < Y + 75 && posY > Y);
 };

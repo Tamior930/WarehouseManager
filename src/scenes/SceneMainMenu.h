@@ -19,16 +19,17 @@ public:
     SceneMainMenu();
     SceneMainMenu(std::string title);
     void initButtons();
+    void updateButtonPositions();
     static void ButtonQuit();
     static void EmptyFunctionTMP();
     static void _LoadScene();
     static void BacktoMenu();
+    static void _LoadOption();
     void render() override;
+
 private:
     Button *Quit, *Play, *Option, *Credit;
     std::string title;
 };
 
-
-
-#endif //SCENEMAINMENU_H
+#endif // SCENEMAINMENU_H

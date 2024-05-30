@@ -6,11 +6,12 @@
 #define SCENE_H
 #include <string>
 
-class Scene
-{
+class Scene {
+
 public:
-    virtual ~Scene(){};
-    virtual void render(){};
+    virtual ~Scene() {};
+    virtual void render() {};
+
 private:
     std::string name;
 };

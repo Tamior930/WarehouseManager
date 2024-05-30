@@ -12,9 +12,11 @@
 
 class SimpleScene : public Scene
 {
+
 public:
     SimpleScene();
     void render() override;
+
 private:
 };
 
