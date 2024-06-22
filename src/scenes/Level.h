@@ -7,7 +7,7 @@
 #include <vector>
 
 #include "Scene.h"
-
+#include "GraphicsLoader.h"
 #include "raylib.h"
 
 
@@ -15,6 +15,7 @@
 class Level  : public Scene{
     public:
         Level();
+        ~Level();
         void render() override;
         void loadImages();
 private:
@@ -29,6 +30,7 @@ private:
     Texture player_texture;
 
 
+    Textures textures;
 };
 
 
