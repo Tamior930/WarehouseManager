@@ -3,7 +3,7 @@
 //
 
 #include "Level.h"
-
+#include "GraphicsLoader.h"
 #include <iostream>
 #define PLAYER_SIZE 40
 
@@ -12,6 +12,11 @@ Level::Level() {
     //player1 = {200, 200, PLAYER_SIZE, PLAYER_SIZE};
     boxesCoordinates.push_back(Vector2({PLAYER_SIZE * 19, PLAYER_SIZE * 8}));
     boxesCoordinates.push_back(Vector2({PLAYER_SIZE * 23, PLAYER_SIZE * 9}));
+    textures = LoadTextures(ASSETS_PATH, PLAYER_SIZE);
+}
+
+Level::~Level() {
+    UnloadTextures(textures);
 }
 
 bool movePlayerandBox(Vector2& playerCoordinates, std::vector<Vector2>& boxesCoordinates, int index, int screenWidth, int screenHeight, int key) {
@@ -79,7 +84,8 @@ void Level::render() {
     const int screenWidth = 1280;
     const int screenHeight = 720;
 
-    Image wallI = LoadImage(ASSETS_PATH"wall/wall example.png");
+    /*
+    Image wallI = LoadImage(ASSETS_PATH"wall/wall_example.png");
     Image playerI = LoadImage(ASSETS_PATH"idee1_vorne_farbideen.png");
     Image boxI = LoadImage(ASSETS_PATH"boxes/boxOne_twoRedLabel.png");
     // Load image in CPU memory (RAM)// Flip cropped image horizontally
@@ -89,7 +95,7 @@ void Level::render() {
     Texture2D wall = LoadTextureFromImage(wallI);
     Texture2D box_texture = LoadTextureFromImage(boxI);
     Texture player_texture = LoadTextureFromImage(playerI);
-
+    */
     std::vector<Vector2> wallsCoordinates;
     std::vector<Vector2> finalPositionsCoordinates;
     wallsCoordinates.push_back(Vector2({PLAYER_SIZE * 23, PLAYER_SIZE * 9}));
@@ -142,25 +148,25 @@ void Level::render() {
 
     //DrawRectangleRec({0, 0, PLAYER_SIZE, PLAYER_SIZE}, BLUE);
     //ImageDrawRectangle(&cat, 0, 0, cat.width, cat.height, RED);
-    DrawTexture(wall, 0, 0, WHITE);
+    DrawTexture(textures.wall, 0, 0, WHITE);
 
     // Draw full scene with first camera
     for (int i = 1; i + 1 < screenWidth / PLAYER_SIZE + 1; i++) {
         //DrawRectangleRec({(float) PLAYER_SIZE * i, 0, PLAYER_SIZE, PLAYER_SIZE}, BLUE);
-        DrawTexture(wall, (float) PLAYER_SIZE * i, 0, RAYWHITE);
+        DrawTexture(textures.wall, (float) PLAYER_SIZE * i, 0, RAYWHITE);
         DrawLineV((Vector2){(float) PLAYER_SIZE * i, PLAYER_SIZE},
                   (Vector2){(float) PLAYER_SIZE * i, (float) screenHeight - PLAYER_SIZE}, LIGHTGRAY);
         //DrawRectangleRec({(float) PLAYER_SIZE * i, (float) screenHeight - PLAYER_SIZE, PLAYER_SIZE, PLAYER_SIZE}, BLUE);
-        DrawTexture(wall, (float) PLAYER_SIZE * i, (float) screenHeight - PLAYER_SIZE, RAYWHITE);
+        DrawTexture(textures.wall, (float) PLAYER_SIZE * i, (float) screenHeight - PLAYER_SIZE, RAYWHITE);
     }
 
     for (int i = 1; i + 1 < screenHeight / PLAYER_SIZE + 1; i++) {
         //DrawRectangleRec({0, (float) PLAYER_SIZE * i, PLAYER_SIZE, PLAYER_SIZE}, BLUE);
-        DrawTexture(wall, 0, (float) PLAYER_SIZE * i, RAYWHITE);
+        DrawTexture(textures.wall, 0, (float) PLAYER_SIZE * i, RAYWHITE);
         DrawLineV((Vector2){PLAYER_SIZE, (float) PLAYER_SIZE * i},
                   (Vector2){(float) screenWidth - PLAYER_SIZE, (float) PLAYER_SIZE * i}, LIGHTGRAY);
         //DrawRectangleRec({(float) screenWidth - PLAYER_SIZE, (float) PLAYER_SIZE * i, PLAYER_SIZE, PLAYER_SIZE}, BLUE);
-        DrawTexture(wall, (float) screenWidth - PLAYER_SIZE, (float) PLAYER_SIZE * i, RAYWHITE);
+        DrawTexture(textures.wall, (float) screenWidth - PLAYER_SIZE, (float) PLAYER_SIZE * i, RAYWHITE);
     }
 
     /*
@@ -172,36 +178,41 @@ void Level::render() {
     */
 
     Rectangle player = {
-        playerCoordinates.x, playerCoordinates.y, static_cast<float>(playerI.width), static_cast<float>(playerI.height)
+        playerCoordinates.x, playerCoordinates.y, static_cast<float>(textures.player.width), static_cast<float>(textures.player.height)
     };
     Rectangle box = {
-        boxesCoordinates[0].x, boxesCoordinates[0].y, static_cast<float>(boxI.width), static_cast<float>(boxI.height)
+        boxesCoordinates[0].x, boxesCoordinates[0].y, static_cast<float>(textures.box.width), static_cast<float>(textures.box.height)
     };
     Rectangle box2 = {
-        boxesCoordinates[1].x, boxesCoordinates[1].y, static_cast<float>(boxI.width), static_cast<float>(boxI.height)
+        boxesCoordinates[1].x, boxesCoordinates[1].y, static_cast<float>(textures.box.width), static_cast<float>(textures.box.height)
     };
     //void DrawTextureRec(Texture2D texture, Rectangle source, Vector2 position, Color tint);
     DrawCircleV(finalPositionsCoordinates[0], 15, RED);
-    DrawTextureRec(player_texture, player, playerCoordinates, WHITE);
-    DrawTextureRec(box_texture, box, boxesCoordinates[0], WHITE);
+    DrawTextureRec(textures.player, player, playerCoordinates, WHITE);
+    DrawTextureRec(textures.box, box, boxesCoordinates[0], WHITE);
     //DrawTextureRec(box_texture, box, boxesCoordinates[1], WHITE);
-    DrawTexture(wall, (float) PLAYER_SIZE * 8, (float) PLAYER_SIZE * 6, RAYWHITE);
-    DrawTexture(wall, (float) PLAYER_SIZE * 8, (float) PLAYER_SIZE * 7, RAYWHITE);
-    DrawTexture(wall, (float) PLAYER_SIZE * 8, (float) PLAYER_SIZE * 8, RAYWHITE);
-    DrawTexture(wall, (float) PLAYER_SIZE * 8, (float) PLAYER_SIZE * 9, RAYWHITE);
-    DrawTexture(wall, (float) PLAYER_SIZE * 8, (float) PLAYER_SIZE * 10, RAYWHITE);
-    DrawTexture(wall, (float) PLAYER_SIZE * 22, (float) PLAYER_SIZE * 6, RAYWHITE);
-    DrawTexture(wall, (float) PLAYER_SIZE * 22, (float) PLAYER_SIZE * 7, RAYWHITE);
-    DrawTexture(wall, (float) PLAYER_SIZE * 22, (float) PLAYER_SIZE * 8, RAYWHITE);
-    DrawTexture(wall, (float) PLAYER_SIZE * 22, (float) PLAYER_SIZE * 9, RAYWHITE);
-    DrawTexture(wall, (float) PLAYER_SIZE * 22, (float) PLAYER_SIZE * 10, RAYWHITE);
+    //attempt to draw from vector information/
 
+    for (const auto& wallCoord : wallsCoordinates) {
+        DrawTexture(textures.wall, wallCoord.x, wallCoord.y, RAYWHITE);
+    }
+
+    /*
+    DrawTexture(textures.wall, (float) PLAYER_SIZE * 8, (float) PLAYER_SIZE * 6, RAYWHITE);
+    DrawTexture(textures.wall, (float) PLAYER_SIZE * 8, (float) PLAYER_SIZE * 7, RAYWHITE);
+    DrawTexture(textures.wall, (float) PLAYER_SIZE * 8, (float) PLAYER_SIZE * 8, RAYWHITE);
+    DrawTexture(textures.wall, (float) PLAYER_SIZE * 8, (float) PLAYER_SIZE * 9, RAYWHITE);
+    DrawTexture(textures.wall, (float) PLAYER_SIZE * 8, (float) PLAYER_SIZE * 10, RAYWHITE);
+    DrawTexture(textures.wall, (float) PLAYER_SIZE * 22, (float) PLAYER_SIZE * 6, RAYWHITE);
+    DrawTexture(textures.wall, (float) PLAYER_SIZE * 22, (float) PLAYER_SIZE * 7, RAYWHITE);
+    DrawTexture(textures.wall, (float) PLAYER_SIZE * 22, (float) PLAYER_SIZE * 8, RAYWHITE);
+    DrawTexture(textures.wall, (float) PLAYER_SIZE * 22, (float) PLAYER_SIZE * 9, RAYWHITE);
+    DrawTexture(textures.wall, (float) PLAYER_SIZE * 22, (float) PLAYER_SIZE * 10, RAYWHITE);
+    */
     //DrawTextureV(player_texture, playerCoordinates, WHITE);
     //DrawTexture(box, 400, 400, WHITE);
 
-    UnloadImage(wallI);
-    UnloadImage(boxI);
-    UnloadImage(playerI);
+
     EndMode2D();
 
     DrawRectangle(0, 0, GetScreenWidth() / 2, 30, Fade(RAYWHITE, 0.6f));
