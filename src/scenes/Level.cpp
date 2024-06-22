@@ -7,7 +7,9 @@
 #include <iostream>
 #define PLAYER_SIZE 40
 
-Level::Level() {
+Level::Level(): wall(), box_texture(), player_texture() {
+    screenWidth = 1280;
+    screenHeight = 720;
     playerCoordinates = Vector2({PLAYER_SIZE * 15, PLAYER_SIZE * 8});
     //player1 = {200, 200, PLAYER_SIZE, PLAYER_SIZE};
     boxesCoordinates.push_back(Vector2({PLAYER_SIZE * 19, PLAYER_SIZE * 8}));
@@ -23,9 +25,11 @@ Level::Level() {
     wallsCoordinates.push_back(Vector2({(float) PLAYER_SIZE * 8, (float) PLAYER_SIZE * 10}));
     wallsCoordinates.push_back(Vector2({(float) PLAYER_SIZE * 22, (float) PLAYER_SIZE * 6}));
     wallsCoordinates.push_back(Vector2({(float) PLAYER_SIZE * 22, (float) PLAYER_SIZE * 7}));
-    wallsCoordinates.push_back(Vector2({ (float) PLAYER_SIZE * 22, (float) PLAYER_SIZE * 8}));
+    wallsCoordinates.push_back(Vector2({(float) PLAYER_SIZE * 22, (float) PLAYER_SIZE * 8}));
     wallsCoordinates.push_back(Vector2({(float) PLAYER_SIZE * 22, (float) PLAYER_SIZE * 9}));
     wallsCoordinates.push_back(Vector2({(float) PLAYER_SIZE * 22, (float) PLAYER_SIZE * 10})); // 880 x 400
+
+    finalPositionsCoordinates.push_back(Vector2({(float) PLAYER_SIZE * 7.5, (float) PLAYER_SIZE * 8.5}));
 
     textures = LoadTextures(ASSETS_PATH, PLAYER_SIZE);
 }
@@ -34,7 +38,7 @@ Level::~Level() {
     UnloadTextures(textures);
 }
 
-bool moveBox(Vector2& playerCoordinates, std::vector<Vector2>& boxesCoordinates, int index, int screenWidth, int screenHeight, int key) {
+bool Level::moveBox(const Vector2& playerCoordinates, std::vector<Vector2>& boxesCoordinates, int index, float screenWidth, float screenHeight, int key) {
     if ((key == 0 ) && playerCoordinates.y + PLAYER_SIZE < screenHeight -
         PLAYER_SIZE) {
         if (playerCoordinates.x == boxesCoordinates[index].x && playerCoordinates.y == boxesCoordinates[index].y) {
@@ -62,7 +66,7 @@ bool moveBox(Vector2& playerCoordinates, std::vector<Vector2>& boxesCoordinates,
     return false;
 }
 
-bool movePlayer(Vector2& playerCoordinates, std::vector<Vector2>& boxesCoordinates, int index, int screenWidth, int screenHeight, int key) {
+bool Level::movePlayer(Vector2& playerCoordinates, const std::vector<Vector2>& boxesCoordinates, int index, float screenWidth, float screenHeight, int key) {
     if ((key == 0 ) && playerCoordinates.y + PLAYER_SIZE < screenHeight -
         PLAYER_SIZE) {
         if (boxesCoordinates[index].y!= screenHeight - PLAYER_SIZE * 2 || playerCoordinates.y + PLAYER_SIZE !=
@@ -97,7 +101,7 @@ bool movePlayer(Vector2& playerCoordinates, std::vector<Vector2>& boxesCoordinat
     return false;
 }
 
-bool movePlayerandBox(Vector2& playerCoordinates, std::vector<Vector2>& boxesCoordinates, int index, int screenWidth, int screenHeight, int key) {
+bool Level::movePlayerandBox(Vector2& playerCoordinates, std::vector<Vector2>& boxesCoordinates, int index, float screenWidth, float screenHeight, int key) {
     if ((key == 0 ) && playerCoordinates.y + PLAYER_SIZE < screenHeight -
         PLAYER_SIZE) {
         if (boxesCoordinates[index].y!= screenHeight - PLAYER_SIZE * 2 || playerCoordinates.y + PLAYER_SIZE !=
@@ -147,7 +151,7 @@ bool movePlayerandBox(Vector2& playerCoordinates, std::vector<Vector2>& boxesCoo
     return false;
 }
 
-bool nextIsWall(int x, int y, std::vector<Vector2>& wallsCoordinates) {
+bool Level::nextIsWall(float x, float y, const std::vector<Vector2>& wallsCoordinates) {
     for (int i = 0 ; i < wallsCoordinates.size(); i++) {
         //std::cout << x << " == "<< wallsCoordinates[i].x << " && " << y << " == " << wallsCoordinates[i].y << std::endl;
         if (x == wallsCoordinates[i].x && y == wallsCoordinates[i].y) {
@@ -157,7 +161,7 @@ bool nextIsWall(int x, int y, std::vector<Vector2>& wallsCoordinates) {
     return false;
 }
 
-bool nextIsBox(int x, int y, std::vector<Vector2>& boxesCoordinates) {
+bool Level::nextIsBox(float x, float y, const std::vector<Vector2>& boxesCoordinates) {
     for (int i = 0 ; i < boxesCoordinates.size(); i++) {
         //std::cout << x << " == "<< wallsCoordinates[i].x << " && " << y << " == " << wallsCoordinates[i].y << std::endl;
         if (x == boxesCoordinates[i].x && y == boxesCoordinates[i].y) {
@@ -169,38 +173,6 @@ bool nextIsBox(int x, int y, std::vector<Vector2>& boxesCoordinates) {
 
 void Level::render() {
     Scene::render();
-
-    const int screenWidth = 1280;
-    const int screenHeight = 720;
-
-    /*
-    Image wallI = LoadImage(ASSETS_PATH"wall/wall_example.png");
-    Image playerI = LoadImage(ASSETS_PATH"idee1_vorne_farbideen.png");
-    Image boxI = LoadImage(ASSETS_PATH"boxes/boxOne_twoRedLabel.png");
-    // Load image in CPU memory (RAM)// Flip cropped image horizontally
-    ImageResize(&playerI, PLAYER_SIZE, PLAYER_SIZE);
-    ImageResize(&wallI, PLAYER_SIZE, PLAYER_SIZE);
-    ImageResize(&boxI, PLAYER_SIZE, PLAYER_SIZE);
-    Texture2D wall = LoadTextureFromImage(wallI);
-    Texture2D box_texture = LoadTextureFromImage(boxI);
-    Texture player_texture = LoadTextureFromImage(playerI);
-    */
-    std::vector<Vector2> wallsCoordinates;
-    std::vector<Vector2> finalPositionsCoordinates;
-    wallsCoordinates.push_back(Vector2({PLAYER_SIZE * 23, PLAYER_SIZE * 9}));
-    wallsCoordinates.push_back(Vector2({(float) PLAYER_SIZE * 8, (float) PLAYER_SIZE * 6}));
-    wallsCoordinates.push_back(Vector2({(float) PLAYER_SIZE * 8, (float) PLAYER_SIZE * 7}));
-    wallsCoordinates.push_back(Vector2({(float) PLAYER_SIZE * 8, (float) PLAYER_SIZE * 8}));
-    wallsCoordinates.push_back(Vector2({(float) PLAYER_SIZE * 8, (float) PLAYER_SIZE * 9}));
-    wallsCoordinates.push_back(Vector2({(float) PLAYER_SIZE * 8, (float) PLAYER_SIZE * 10}));
-    wallsCoordinates.push_back(Vector2({(float) PLAYER_SIZE * 22, (float) PLAYER_SIZE * 6}));
-    wallsCoordinates.push_back(Vector2({(float) PLAYER_SIZE * 22, (float) PLAYER_SIZE * 7}));
-    wallsCoordinates.push_back(Vector2({ (float) PLAYER_SIZE * 22, (float) PLAYER_SIZE * 8}));
-    wallsCoordinates.push_back(Vector2({(float) PLAYER_SIZE * 22, (float) PLAYER_SIZE * 9}));
-    wallsCoordinates.push_back(Vector2({(float) PLAYER_SIZE * 22, (float) PLAYER_SIZE * 10}));
-
-    finalPositionsCoordinates.push_back(Vector2({(float) PLAYER_SIZE * 7.5, (float) PLAYER_SIZE * 8.5}));
-
 
     // Update
     //----------------------------------------------------------------------------------
@@ -242,7 +214,6 @@ void Level::render() {
         }
     }
 
-
     //----------------------------------------------------------------------------------
 
     // Draw
@@ -256,7 +227,7 @@ void Level::render() {
     // Draw full scene with first camera
     for (int i = 1; i + 1 < screenWidth / PLAYER_SIZE + 1; i++) {
         //DrawRectangleRec({(float) PLAYER_SIZE * i, 0, PLAYER_SIZE, PLAYER_SIZE}, BLUE);
-        DrawTexture(textures.wall, (float) PLAYER_SIZE * i, 0, RAYWHITE);
+        DrawTexture(textures.wall, float(PLAYER_SIZE) * i, 0, RAYWHITE);
         DrawLineV((Vector2){(float) PLAYER_SIZE * i, PLAYER_SIZE},
                   (Vector2){(float) PLAYER_SIZE * i, (float) screenHeight - PLAYER_SIZE}, LIGHTGRAY);
         //DrawRectangleRec({(float) PLAYER_SIZE * i, (float) screenHeight - PLAYER_SIZE, PLAYER_SIZE, PLAYER_SIZE}, BLUE);
@@ -299,22 +270,6 @@ void Level::render() {
     for (const auto& wallCoord : wallsCoordinates) {
         DrawTexture(textures.wall, wallCoord.x, wallCoord.y, RAYWHITE);
     }
-
-    /*
-    DrawTexture(textures.wall, (float) PLAYER_SIZE * 8, (float) PLAYER_SIZE * 6, RAYWHITE);
-    DrawTexture(textures.wall, (float) PLAYER_SIZE * 8, (float) PLAYER_SIZE * 7, RAYWHITE);
-    DrawTexture(textures.wall, (float) PLAYER_SIZE * 8, (float) PLAYER_SIZE * 8, RAYWHITE);
-    DrawTexture(textures.wall, (float) PLAYER_SIZE * 8, (float) PLAYER_SIZE * 9, RAYWHITE);
-    DrawTexture(textures.wall, (float) PLAYER_SIZE * 8, (float) PLAYER_SIZE * 10, RAYWHITE);
-    DrawTexture(textures.wall, (float) PLAYER_SIZE * 22, (float) PLAYER_SIZE * 6, RAYWHITE);
-    DrawTexture(textures.wall, (float) PLAYER_SIZE * 22, (float) PLAYER_SIZE * 7, RAYWHITE);
-    DrawTexture(textures.wall, (float) PLAYER_SIZE * 22, (float) PLAYER_SIZE * 8, RAYWHITE);
-    DrawTexture(textures.wall, (float) PLAYER_SIZE * 22, (float) PLAYER_SIZE * 9, RAYWHITE);
-    DrawTexture(textures.wall, (float) PLAYER_SIZE * 22, (float) PLAYER_SIZE * 10, RAYWHITE);
-    */
-    //DrawTextureV(player_texture, playerCoordinates, WHITE);
-    //DrawTexture(box, 400, 400, WHITE);
-
     EndMode2D();
 
     DrawRectangle(0, 0, GetScreenWidth() / 2, 30, Fade(RAYWHITE, 0.6f));

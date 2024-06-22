@@ -17,8 +17,18 @@ class Level  : public Scene{
         Level();
         ~Level();
         void render() override;
-        void loadImages();
+    bool moveBox(const Vector2 &playerCoordinates, std::vector<Vector2> &boxesCoordinates, int index, float screenWidth, float
+                 screenHeight, int key);
+    bool movePlayer(Vector2 &playerCoordinates, const std::vector<Vector2> &boxesCoordinates, int index, float screenWidth, float
+                    screenHeight, int key);
+    bool movePlayerandBox(Vector2 &playerCoordinates, std::vector<Vector2> &boxesCoordinates, int index, float screenWidth, float screenHeight, int
+                          key);
+    bool nextIsWall(float x, float y, const std::vector<Vector2> &wallsCoordinates);
+    bool nextIsBox(float x, float y, const std::vector<Vector2> &boxesCoordinates);
+
 private:
+    float screenWidth = 1280;
+    float screenHeight = 720;
     Vector2 playerCoordinates;
     std::vector<Vector2> boxesCoordinates;
     std::vector<Vector2> finalPositionsCoordinates;
