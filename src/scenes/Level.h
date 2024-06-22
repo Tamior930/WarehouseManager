@@ -14,7 +14,7 @@
 
 class Level  : public Scene{
     public:
-        Level();
+        Level(const std::string &filename);
         ~Level();
         void render() override;
     bool moveBox(const Vector2 &playerCoordinates, std::vector<Vector2> &boxesCoordinates, int index, float screenWidth, float
@@ -29,7 +29,8 @@ class Level  : public Scene{
 private:
     float screenWidth = 1280;
     float screenHeight = 720;
-    Vector2 playerCoordinates;
+    std::vector<Vector2*> playersCoordinates;
+    //ToDo: boxesCoordinates, finalPositionsCoordinates, wallsCoordinates umbauen mit Pointer wie playersCoordinates
     std::vector<Vector2> boxesCoordinates;
     std::vector<Vector2> finalPositionsCoordinates;
     //walls, on the field
