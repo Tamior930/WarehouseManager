@@ -1,22 +1,16 @@
-//
-// Created by if23b269 on 15.04.24.
-//
-
 #include "raylib.h"
 #include "scenes/SceneMainMenu.h"
 //#define ASSETS_PATH "./assets/"
-constexpr auto SCREEN_WIDTH  = 800;
-constexpr auto SCREEN_HEIGHT = 450;
 
 //Buttons: 2 - 150, GetScreenHeight() - 100
 const int screenWidth = 1280;
 const int screenHeight = 720;
 int main()
 {
-    InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Window title");
-    SetTargetFPS(60);
+    //InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Window title");
+    //SetTargetFPS(60);
 
-    Texture2D texture = LoadTexture(ASSETS_PATH"test.png");
+    //Texture2D texture = LoadTexture(ASSETS_PATH"test.png");
 
     /*
     while (!WindowShouldClose())
@@ -66,8 +60,8 @@ int main()
     CloseAudioDevice();
     CloseWindow();
 
-    UnloadTexture(texture);
+    //UnloadTexture(texture);
 
-    CloseWindow();
+    //CloseWindow();
     return 0;
 }
