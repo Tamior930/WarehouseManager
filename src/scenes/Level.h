@@ -16,9 +16,18 @@ class Level  : public Scene{
     public:
         Level();
         void render() override;
+        void loadImages();
 private:
     Vector2 playerCoordinates;
     std::vector<Vector2> boxesCoordinates;
+    std::vector<Vector2> finalPositionsCoordinates;
+    //walls, on the field
+    std::vector<Vector2> wallsCoordinates;
+
+    Texture2D wall;
+    Texture2D box_texture;
+    Texture player_texture;
+
 
 };
 

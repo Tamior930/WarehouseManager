@@ -1,10 +1,9 @@
-// Created by if23b269 on 15.04.24
-
 #include "raylib.h"
 #include "scenes/SceneMainMenu.h"
 #include "option/option.h"
 #include "util/SceneManager.h"
 #include "util/GUIManager.h"
+//#define ASSETS_PATH "./assets/"
 
 int main() {
     InitWindow(Options::GetScreenWidth(), Options::GetScreenHeight(), "Warehouse Manager");
@@ -47,4 +46,3 @@ int main() {
 
     return 0;
 }
-
