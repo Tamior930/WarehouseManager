@@ -6,6 +6,7 @@
 //#define ASSETS_PATH "./assets/"
 
 int main() {
+    SetConfigFlags(FLAG_VSYNC_HINT);
     InitWindow(Options::GetScreenWidth(), Options::GetScreenHeight(), "Warehouse Manager");
 
     InitAudioDevice();

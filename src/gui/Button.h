@@ -28,31 +28,31 @@
 // Created by if23b269 on 30.04.24.
 //
 
-#ifndef BUTTONR_H
-#define BUTTONR_H
-
-#include "raylib.h"
+#ifndef BUTTON_H
+#define BUTTON_H
 
 #include <string>
 #include <cstring>
-
-using namespace std;
+#include <raylib.h>
 
 class Button {
 public:
-    Button(std::string name, int posX, int posY);
+    Button(const std::string& name, int X, int Y, int width, int height);
     ~Button();
+
+    void SetPosition(int X, int Y);
+    int isHovered(int X, int Y) const;
     void render(void (*_setup)());
-    void SetPosition(int posX, int posY);
 
 private:
-    bool hovered;
-    int X, Y;
     char* name;
-    void onclick(void (*onclick)()) {onclick();};
-    int isHovered(int posX, int posY) const;
+    int X, Y;
+    int width = 250, height = 75;
+    bool hovered = false;
+
+    void onclick(void (*_setup)()) {
+        _setup();
+    }
 };
 
-
-
-#endif //BUTTONR_H
+#endif // BUTTON_H

@@ -18,18 +18,23 @@ class SceneMainMenu : public Scene {
 public:
     SceneMainMenu();
     SceneMainMenu(std::string title);
-    void initButtons();
+
+    void render();
     void updateButtonPositions();
-    static void ButtonQuit();
-    static void EmptyFunctionTMP();
-    static void _LoadScene();
-    static void BacktoMenu();
-    static void _LoadOption();
-    void render() override;
 
 private:
-    Button *Quit, *Play, *Option, *Credit;
     std::string title;
+    Button* Quit;
+    Button* Credit;
+    Button* Option;
+    Button* Play;
+
+    void initButtons();
+    static void ButtonQuit();
+    static void BacktoMenu();
+    static void EmptyFunctionTMP();
+    static void _LoadScene();
+    static void _LoadOption();
 };
 
 #endif // SCENEMAINMENU_H
