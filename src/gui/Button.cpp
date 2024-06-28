@@ -8,8 +8,8 @@
 //    std::strcpy(this->name, name.c_str());
 //}
 
-Button::Button(const std::string& name, int X, int Y, int width, int height)
-        : X(X), Y(Y), width(width), height(height)
+Button::Button(const std::string& name, int posX, int posY, int width, int height)
+        : X(posX), Y(posY), width(width), height(height)
 {
     const int length = name.length();
     this->name = new char[length + 1];
@@ -20,13 +20,13 @@ Button::~Button() {
     delete[] name;
 }
 
-void Button::SetPosition(int X, int Y) {
-    this->X = X;
-    this->Y = Y;
+void Button::SetPosition(int posX, int posY) {
+    this->X = posX;
+    this->Y = posY;
 }
 
-int Button::isHovered(int X, int Y) const {
-    return (X < this->X + width && X > this->X && Y < this->Y + height && Y > this->Y);
+int Button::isHovered(int posX, int posY) const {
+    return (posX < this->X + width && posX > this->X && posY < this->Y + height && posY > this->Y);
 }
 
 void Button::render(void (*_setup)())
@@ -37,27 +37,10 @@ void Button::render(void (*_setup)())
 
     DrawText(name, X + (width / 2 - MeasureText(name, 30) / 2), Y + (height / 2 - 15), 30, (isHovered(GetMouseX(), GetMouseY()) ? RED : BLACK));
 
-    if (hovered && IsMouseButtonPressed(0)) {
-        onclick(_setup);
+    if (hovered) {
+        if(IsMouseButtonPressed(0))
+        {
+            onclick(_setup);
+        }
     }
 }
-
-//void Button::render(void (*_setup)()) {
-//
-//    DrawRectangle(X + 25, Y, width, height, (isHovered(GetMouseX(), GetMouseY()) ? RED : BLACK));
-//    DrawRectangle(X + 30, Y + 5, width - 10, height - 10, (isHovered(GetMouseX(), GetMouseY()) ? BLACK : WHITE));
-//    DrawText(name, X + (width / 2 - MeasureText(name, 30) / 2), Y + (height / 2 - 15), 30, (isHovered(GetMouseX(), GetMouseY()) ? RED : BLACK));
-//
-//    if(isHovered(GetMouseX(), GetMouseY()))
-//    {
-//        if(!hovered)
-//        {
-//
-//        }
-//        if(IsMouseButtonPressed(0))
-//        {
-//            onclick(_setup);
-//        }
-//    }
-//    hovered = isHovered(GetMouseX(), GetMouseY());
-//}
