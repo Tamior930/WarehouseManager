@@ -43,6 +43,7 @@ int main() {
     UnloadMusicStream(music);
     CloseAudioDevice();
     CloseWindow();
+    delete menu;
 
     return 0;
 }

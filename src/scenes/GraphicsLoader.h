@@ -13,9 +13,12 @@ struct Textures {
     Texture2D wall;
     Texture2D box;
     Texture player;
+    Texture2D target;
+    Texture2D flooring;
+
 };
 
-Textures LoadTextures(const std::string& assetsPath, const int playerSize);
+Textures LoadTextures(const std::string& assetsPath, const int playerSize, int currentLevel);
 void UnloadTextures(Textures& textures);
 
 #endif //WAREHOUSEMANAGER_GRAPHICSLOADER_H

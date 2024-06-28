@@ -6,101 +6,112 @@
 #include "GraphicsLoader.h"
 #include "../LevelManger/LevelManager.h"
 #include <iostream>
+#include "../util/GUIManager.h"
 #define PLAYER_SIZE 40
 
-Level::Level(const std::string &filename): wall(), box_texture(), player_texture() {
+Level::Level(): wall(), box_texture(), player_texture() {
     screenWidth = 1280;
     screenHeight = 720;
-    LevelManager lm;
-    auto data = lm.readDataFromFile(filename);
-    // create a vector
-    playersCoordinates = std::vector<Vector2*>(10, nullptr);
+    currentLevel = 1;
+    initLevel(currentLevel);
 
-    //ToDo: boxesCoordinates, finalPositionsCoordinates, wallsCoordinates umbauen mit Pointer wie playersCoordinates
-    lm.processDataFromVector(data,PLAYER_SIZE, playersCoordinates);
-
-    //playerCoordinates = Vector2({PLAYER_SIZE * 15, PLAYER_SIZE * 8});
-    //player1 = {200, 200, PLAYER_SIZE, PLAYER_SIZE};
-    boxesCoordinates.push_back(Vector2({PLAYER_SIZE * 19, PLAYER_SIZE * 8}));
-    boxesCoordinates.push_back(Vector2({PLAYER_SIZE * 23, PLAYER_SIZE * 9}));
-
-    finalPositionsCoordinates.push_back(Vector2({(float) PLAYER_SIZE * 7.5, (float) PLAYER_SIZE * 8.5}));
-
-    //wallsCoordinates.push_back(Vector2({PLAYER_SIZE * 23, PLAYER_SIZE * 9}));
-    wallsCoordinates.push_back(Vector2({(float) PLAYER_SIZE * 8, (float) PLAYER_SIZE * 6}));
-    wallsCoordinates.push_back(Vector2({(float) PLAYER_SIZE * 8, (float) PLAYER_SIZE * 7}));
-    wallsCoordinates.push_back(Vector2({(float) PLAYER_SIZE * 8, (float) PLAYER_SIZE * 8}));
-    wallsCoordinates.push_back(Vector2({(float) PLAYER_SIZE * 8, (float) PLAYER_SIZE * 9}));
-    wallsCoordinates.push_back(Vector2({(float) PLAYER_SIZE * 8, (float) PLAYER_SIZE * 10}));
-    wallsCoordinates.push_back(Vector2({(float) PLAYER_SIZE * 22, (float) PLAYER_SIZE * 6}));
-    wallsCoordinates.push_back(Vector2({(float) PLAYER_SIZE * 22, (float) PLAYER_SIZE * 7}));
-    wallsCoordinates.push_back(Vector2({(float) PLAYER_SIZE * 22, (float) PLAYER_SIZE * 8}));
-    wallsCoordinates.push_back(Vector2({(float) PLAYER_SIZE * 22, (float) PLAYER_SIZE * 9}));
-    wallsCoordinates.push_back(Vector2({(float) PLAYER_SIZE * 22, (float) PLAYER_SIZE * 10})); // 880 x 400
-
-    textures = LoadTextures(ASSETS_PATH, PLAYER_SIZE);
 }
 
 Level::~Level() {
     UnloadTextures(textures);
+    for (auto p : playersCoordinates)
+    {
+        delete p;
+    }
+    playersCoordinates.clear();
+    for (auto p : boxesCoordinates)
+    {
+        delete p;
+    }
+    boxesCoordinates.clear();
+    for (auto p : finalPositionsCoordinates)
+    {
+        delete p;
+    }
+    finalPositionsCoordinates.clear();
+    for (auto p : wallsCoordinates)
+    {
+        delete p;
+    }
+    wallsCoordinates.clear();
 }
 
-bool Level::moveBox(const Vector2& playerCoordinates, std::vector<Vector2>& boxesCoordinates, int index, float screenWidth, float screenHeight, int key) {
+void Level::initLevel(int currentLevel)
+{
+    filename = std::string(ASSETS_PATH) + "level" + std::to_string(currentLevel);
+    LevelManager lm;
+    auto data = lm.readDataFromFile(filename);
+    // create a vector
+    playersCoordinates = std::vector<Vector2*>(0, nullptr);
+    boxesCoordinates = std::vector<Vector2*>(0, nullptr);
+    wallsCoordinates = std::vector<Vector2*>(0, nullptr);
+    finalPositionsCoordinates = std::vector<Vector2*>(0, nullptr);
+    flooringCoordinates = std::vector<Vector2*>(0, nullptr);
+    lm.processDataFromVector(data,PLAYER_SIZE, playersCoordinates, boxesCoordinates, wallsCoordinates, flooringCoordinates, finalPositionsCoordinates);
+    textures = LoadTextures(ASSETS_PATH, PLAYER_SIZE, currentLevel);
+}
+
+bool Level::moveBox(const Vector2& playerCoordinates, std::vector<Vector2*>& boxesCoordinates, int index, float screenWidth, float screenHeight, int key) {
     if ((key == 0 ) && playerCoordinates.y + PLAYER_SIZE < screenHeight -
         PLAYER_SIZE) {
-        if (playerCoordinates.x == boxesCoordinates[index].x && playerCoordinates.y == boxesCoordinates[index].y) {
-            boxesCoordinates[index].y += PLAYER_SIZE;
+        if (playerCoordinates.x == boxesCoordinates[index]->x && playerCoordinates.y == boxesCoordinates[index]->y) {
+            boxesCoordinates[index]->y += PLAYER_SIZE;
             return true;
         }
     } else if ((key == 1) && playerCoordinates.y - PLAYER_SIZE > 0) {
-        if (playerCoordinates.x == boxesCoordinates[index].x && playerCoordinates.y == boxesCoordinates[index].y) {
-            boxesCoordinates[index].y -= PLAYER_SIZE;
+        if (playerCoordinates.x == boxesCoordinates[index]->x && playerCoordinates.y == boxesCoordinates[index]->y) {
+            boxesCoordinates[index]->y -= PLAYER_SIZE;
             return true;
         }
     } else if ((key == 2) && playerCoordinates.x + PLAYER_SIZE < screenWidth -
                PLAYER_SIZE) {
-        if (playerCoordinates.x == boxesCoordinates[index].x && playerCoordinates.y == boxesCoordinates[index].y) {
-            boxesCoordinates[index].x += PLAYER_SIZE;
+        if (playerCoordinates.x == boxesCoordinates[index]->x && playerCoordinates.y == boxesCoordinates[index]->y) {
+            boxesCoordinates[index]->x += PLAYER_SIZE;
             return true;
         }
     } else if ((key == 3) && playerCoordinates.x - PLAYER_SIZE > 0) {
-        if (playerCoordinates.x == boxesCoordinates[index].x && playerCoordinates.y == boxesCoordinates[index].y &&
-            boxesCoordinates[index].x - PLAYER_SIZE >= PLAYER_SIZE) {
-            boxesCoordinates[index].x -= PLAYER_SIZE;
+        if (playerCoordinates.x == boxesCoordinates[index]->x && playerCoordinates.y == boxesCoordinates[index]->y &&
+            boxesCoordinates[index]->x - PLAYER_SIZE >= PLAYER_SIZE) {
+            boxesCoordinates[index]->x -= PLAYER_SIZE;
             return true;
         }
     }
     return false;
 }
 
-bool Level::movePlayer(Vector2& playerCoordinates, const std::vector<Vector2>& boxesCoordinates, int index, float screenWidth, float screenHeight, int key) {
+bool Level::movePlayer(Vector2& playerCoordinates, const std::vector<Vector2*>& boxesCoordinates, int index, float screenWidth, float screenHeight, int key) {
     if ((key == 0 ) && playerCoordinates.y + PLAYER_SIZE < screenHeight -
         PLAYER_SIZE) {
-        if (boxesCoordinates[index].y!= screenHeight - PLAYER_SIZE * 2 || playerCoordinates.y + PLAYER_SIZE !=
-            boxesCoordinates[index].y ||
-            playerCoordinates.x != boxesCoordinates[index].x) {
+        if (boxesCoordinates[index]->y!= screenHeight - PLAYER_SIZE * 2 || playerCoordinates.y + PLAYER_SIZE !=
+            boxesCoordinates[index]->y ||
+            playerCoordinates.x != boxesCoordinates[index]->x) {
             playerCoordinates.y += PLAYER_SIZE;
         }
         return true;
     } else if ((key == 1) && playerCoordinates.y - PLAYER_SIZE > 0) {
-        if (boxesCoordinates[index].y != PLAYER_SIZE || playerCoordinates.y - PLAYER_SIZE != boxesCoordinates[index].y ||
-            playerCoordinates.x != boxesCoordinates[index].x) {
+        if (boxesCoordinates[index]->y != PLAYER_SIZE || playerCoordinates.y - PLAYER_SIZE != boxesCoordinates[index]->y ||
+            playerCoordinates.x != boxesCoordinates[index]->x) {
             playerCoordinates.y -= PLAYER_SIZE;
         }
 
         return true;
     } else if ((key == 2) && playerCoordinates.x + PLAYER_SIZE < screenWidth -
                PLAYER_SIZE) {
-        if (boxesCoordinates[index].x != screenWidth - PLAYER_SIZE * 2 || playerCoordinates.x + PLAYER_SIZE !=
-            boxesCoordinates[index].x ||
-            playerCoordinates.y != boxesCoordinates[index].y) {
+        if (boxesCoordinates[index]->x != screenWidth - PLAYER_SIZE * 2 || playerCoordinates.x + PLAYER_SIZE !=
+            boxesCoordinates[index]->x ||
+            playerCoordinates.y != boxesCoordinates[index]->y) {
             playerCoordinates.x += PLAYER_SIZE;
         }
 
         return true;
     } else if ((key == 3) && playerCoordinates.x - PLAYER_SIZE > 0) {
-        if (boxesCoordinates[index].x != PLAYER_SIZE || playerCoordinates.x - PLAYER_SIZE != boxesCoordinates[index].x ||
-            playerCoordinates.y != boxesCoordinates[index].y) {
+        if (boxesCoordinates[index]->x != PLAYER_SIZE || playerCoordinates.x - PLAYER_SIZE != boxesCoordinates[index]->x ||
+            playerCoordinates.y != boxesCoordinates[index]->y) {
             playerCoordinates.x -= PLAYER_SIZE; //2:15, meeting 30 min
         }
         return true;
@@ -108,130 +119,82 @@ bool Level::movePlayer(Vector2& playerCoordinates, const std::vector<Vector2>& b
     return false;
 }
 
-bool Level::movePlayerandBox(Vector2& playerCoordinates, std::vector<Vector2>& boxesCoordinates, int index, float screenWidth, float screenHeight, int key) {
+bool Level::movePlayerandBox(Vector2& playerCoordinates, std::vector<Vector2*>& boxesCoordinates, int index, float screenWidth, float screenHeight, int key) {
     if ((key == 0 ) && playerCoordinates.y + PLAYER_SIZE < screenHeight -
         PLAYER_SIZE) {
-        if (boxesCoordinates[index].y!= screenHeight - PLAYER_SIZE * 2 || playerCoordinates.y + PLAYER_SIZE !=
-            boxesCoordinates[index].y ||
-            playerCoordinates.x != boxesCoordinates[index].x) {
+        if (boxesCoordinates[index]->y!= screenHeight - PLAYER_SIZE * 2 || playerCoordinates.y + PLAYER_SIZE !=
+            boxesCoordinates[index]->y ||
+            playerCoordinates.x != boxesCoordinates[index]->x) {
             playerCoordinates.y += PLAYER_SIZE;
         }
 
-        if (playerCoordinates.x == boxesCoordinates[index].x && playerCoordinates.y == boxesCoordinates[index].y) {
-            boxesCoordinates[index].y += PLAYER_SIZE;
+        if (playerCoordinates.x == boxesCoordinates[index]->x && playerCoordinates.y == boxesCoordinates[index]->y) {
+            boxesCoordinates[index]->y += PLAYER_SIZE;
             return true;
         }
     } else if ((key == 1) && playerCoordinates.y - PLAYER_SIZE > 0) {
-        if (boxesCoordinates[index].y != PLAYER_SIZE || playerCoordinates.y - PLAYER_SIZE != boxesCoordinates[index].y ||
-            playerCoordinates.x != boxesCoordinates[index].x) {
+        if (boxesCoordinates[index]->y != PLAYER_SIZE || playerCoordinates.y - PLAYER_SIZE != boxesCoordinates[index]->y ||
+            playerCoordinates.x != boxesCoordinates[index]->x) {
             playerCoordinates.y -= PLAYER_SIZE;
         }
 
-        if (playerCoordinates.x == boxesCoordinates[index].x && playerCoordinates.y == boxesCoordinates[index].y) {
-            boxesCoordinates[index].y -= PLAYER_SIZE;
+        if (playerCoordinates.x == boxesCoordinates[index]->x && playerCoordinates.y == boxesCoordinates[index]->y) {
+            boxesCoordinates[index]->y -= PLAYER_SIZE;
             return true;
         }
     } else if ((key == 2) && playerCoordinates.x + PLAYER_SIZE < screenWidth -
                PLAYER_SIZE) {
-        if (boxesCoordinates[index].x != screenWidth - PLAYER_SIZE * 2 || playerCoordinates.x + PLAYER_SIZE !=
-            boxesCoordinates[index].x ||
-            playerCoordinates.y != boxesCoordinates[index].y) {
+        if (boxesCoordinates[index]->x != screenWidth - PLAYER_SIZE * 2 || playerCoordinates.x + PLAYER_SIZE !=
+            boxesCoordinates[index]->x ||
+            playerCoordinates.y != boxesCoordinates[index]->y) {
             playerCoordinates.x += PLAYER_SIZE;
         }
 
-        if (playerCoordinates.x == boxesCoordinates[index].x && playerCoordinates.y == boxesCoordinates[index].y) {
-            boxesCoordinates[index].x += PLAYER_SIZE;
+        if (playerCoordinates.x == boxesCoordinates[index]->x && playerCoordinates.y == boxesCoordinates[index]->y) {
+            boxesCoordinates[index]->x += PLAYER_SIZE;
             return true;
         }
     } else if ((key == 3) && playerCoordinates.x - PLAYER_SIZE > 0) {
-        if (boxesCoordinates[index].x != PLAYER_SIZE || playerCoordinates.x - PLAYER_SIZE != boxesCoordinates[index].x ||
-            playerCoordinates.y != boxesCoordinates[index].y) {
+        if (boxesCoordinates[index]->x != PLAYER_SIZE || playerCoordinates.x - PLAYER_SIZE != boxesCoordinates[index]->x ||
+            playerCoordinates.y != boxesCoordinates[index]->y) {
             playerCoordinates.x -= PLAYER_SIZE; //2:15, meeting 30 min
         }
 
-        if (playerCoordinates.x == boxesCoordinates[index].x && playerCoordinates.y == boxesCoordinates[index].y &&
-            boxesCoordinates[index].x - PLAYER_SIZE >= PLAYER_SIZE) {
-            boxesCoordinates[index].x -= PLAYER_SIZE;
+        if (playerCoordinates.x == boxesCoordinates[index]->x && playerCoordinates.y == boxesCoordinates[index]->y &&
+            boxesCoordinates[index]->x - PLAYER_SIZE >= PLAYER_SIZE) {
+            boxesCoordinates[index]->x -= PLAYER_SIZE;
             return true;
         }
     }
     return false;
 }
 
-bool Level::nextIsWall(float x, float y, const std::vector<Vector2>& wallsCoordinates) {
+bool Level::nextIsWall(float x, float y, const std::vector<Vector2*>& wallsCoordinates) {
     for (int i = 0 ; i < wallsCoordinates.size(); i++) {
         //std::cout << x << " == "<< wallsCoordinates[i].x << " && " << y << " == " << wallsCoordinates[i].y << std::endl;
-        if (x == wallsCoordinates[i].x && y == wallsCoordinates[i].y) {
+        if (x == wallsCoordinates[i]->x && y == wallsCoordinates[i]->y) {
             return true;
         }
     }
     return false;
 }
 
-bool Level::nextIsBox(float x, float y, const std::vector<Vector2>& boxesCoordinates) {
+bool Level::nextIsBox(float x, float y, const std::vector<Vector2*>& boxesCoordinates) {
     for (int i = 0 ; i < boxesCoordinates.size(); i++) {
         //std::cout << x << " == "<< wallsCoordinates[i].x << " && " << y << " == " << wallsCoordinates[i].y << std::endl;
-        if (x == boxesCoordinates[i].x && y == boxesCoordinates[i].y) {
+        if (x == boxesCoordinates[i]->x && y == boxesCoordinates[i]->y) {
             return true;
         }
     }
     return false;
 }
 
-void Level::render() {
-    Scene::render();
-
-    // Update
-    //----------------------------------------------------------------------------------
-    //std::cout << screenHeight/player1.y + PLAYER_SIZE << " <y " << (screenHeight - PLAYER_SIZE) << std::endl;
-    //std::cout << screenWidth/player1.x + PLAYER_SIZE << " < " << (screenWidth - PLAYER_SIZE) << std::endl;
-
-    float x = playersCoordinates[0]->x;
-    float y = playersCoordinates[0]->y;
-    int key = -1;
-    bool boxNextWall = false;
-
-    if ((IsKeyPressed(KEY_S) || IsKeyPressedRepeat(KEY_S))) {
-        y = playersCoordinates[0]->y + PLAYER_SIZE;
-        key = 0;
-        boxNextWall = nextIsWall(x, PLAYER_SIZE + y, wallsCoordinates);
-    } else if ((IsKeyPressed(KEY_W) || IsKeyPressedRepeat(KEY_W))) {
-        y = playersCoordinates[0]->y - PLAYER_SIZE;
-        key = 1;
-        boxNextWall = nextIsWall(x, y-PLAYER_SIZE, wallsCoordinates);
-    } else if ((IsKeyPressed(KEY_D) || IsKeyPressedRepeat(KEY_D))) {
-        x = playersCoordinates[0]->x + PLAYER_SIZE;
-        key = 2;
-        boxNextWall = nextIsWall(x+PLAYER_SIZE, y, wallsCoordinates);
-    } else if ((IsKeyPressed(KEY_A) || IsKeyPressedRepeat(KEY_A))) {
-        x = playersCoordinates[0]->x - PLAYER_SIZE;
-        key = 3;
-        boxNextWall = nextIsWall(x-PLAYER_SIZE, y, wallsCoordinates);
-    }
-
-    //0 && 440 == 440 880 == 920
-    if (!nextIsWall(x, y, wallsCoordinates) && key != -1) {
-        if (!nextIsBox(x,y, boxesCoordinates)) {
-            movePlayer(*playersCoordinates[0], boxesCoordinates, 0, screenWidth, screenHeight, key);
-        } else {
-            if (!boxNextWall) {
-                movePlayer(*playersCoordinates[0], boxesCoordinates, 0, screenWidth, screenHeight, key);
-                moveBox(*playersCoordinates[0], boxesCoordinates, 0, screenWidth, screenHeight, key);
-            }
-        }
-    }
-
-    //----------------------------------------------------------------------------------
-
-    // Draw
-    //----------------------------------------------------------------------------------
-    ClearBackground(RAYWHITE);
-
+void Level::drawBorder() {
     //DrawRectangleRec({0, 0, PLAYER_SIZE, PLAYER_SIZE}, BLUE);
     //ImageDrawRectangle(&cat, 0, 0, cat.width, cat.height, RED);
     DrawTexture(textures.wall, 0, 0, WHITE);
 
-    // Draw full scene with first camera
+
     for (int i = 1; i + 1 < screenWidth / PLAYER_SIZE + 1; i++) {
         //DrawRectangleRec({(float) PLAYER_SIZE * i, 0, PLAYER_SIZE, PLAYER_SIZE}, BLUE);
         DrawTexture(textures.wall, float(PLAYER_SIZE) * i, 0, RAYWHITE);
@@ -249,32 +212,109 @@ void Level::render() {
         //DrawRectangleRec({(float) screenWidth - PLAYER_SIZE, (float) PLAYER_SIZE * i, PLAYER_SIZE, PLAYER_SIZE}, BLUE);
         DrawTexture(textures.wall, (float) screenWidth - PLAYER_SIZE, (float) PLAYER_SIZE * i, RAYWHITE);
     }
+}
 
-
+void Level::drawCoordinates() {
     for (int i = 1; i + 1 < screenWidth / PLAYER_SIZE; i++) {
         for (int j = 1; j + 1 < screenHeight / PLAYER_SIZE; j++) {
             DrawText(TextFormat("[%i,%i]", i, j), 10 + PLAYER_SIZE * i, 15 + PLAYER_SIZE * j, 10, LIGHTGRAY);
         }
     }
+}
 
-    Rectangle player = {
-        playersCoordinates[0]->x, playersCoordinates[0]->y, static_cast<float>(textures.player.width), static_cast<float>(textures.player.height)
-    };
-    Rectangle box = {
-        boxesCoordinates[0].x, boxesCoordinates[0].y, static_cast<float>(textures.box.width), static_cast<float>(textures.box.height)
-    };
-    Rectangle box2 = {
-        boxesCoordinates[1].x, boxesCoordinates[1].y, static_cast<float>(textures.box.width), static_cast<float>(textures.box.height)
-    };
-    //void DrawTextureRec(Texture2D texture, Rectangle source, Vector2 position, Color tint);
-    DrawCircleV(finalPositionsCoordinates[0], 15, RED);
-    DrawTextureRec(textures.player, player, *playersCoordinates[0], WHITE);
-    DrawTextureRec(textures.box, box, boxesCoordinates[0], WHITE);
-    //DrawTextureRec(box_texture, box, boxesCoordinates[1], WHITE);
-    //attempt to draw from vector information/
+bool Level::checkKeyUp(int index) {
+    return IsKeyPressed(keysUp[index]) || IsKeyPressedRepeat(keysUp[index]);
+}
+bool Level::checkKeyDown(int index) {
+    return IsKeyPressed(keysDown[index]) || IsKeyPressedRepeat(keysDown[index]);
+}
+bool Level::checkKeyRight(int index) {
+    return IsKeyPressed(keysRight[index]) || IsKeyPressedRepeat(keysRight[index]);
+}
+bool Level::checkKeyLeft(int index) {
+    return IsKeyPressed(keysLeft[index]) || IsKeyPressedRepeat(keysLeft[index]);
+}
 
+void Level::render() {
+    Scene::render();
+
+    // Update
+    //----------------------------------------------------------------------------------
+    //std::cout << screenHeight/player1.y + PLAYER_SIZE << " <y " << (screenHeight - PLAYER_SIZE) << std::endl;
+    //std::cout << screenWidth/player1.x + PLAYER_SIZE << " < " << (screenWidth - PLAYER_SIZE) << std::endl;
+    int playerId = 0;
+    for (const auto& player : playersCoordinates) {
+
+        float x = player->x;
+        float y = player->y;
+        int key = -1;
+        bool boxNextWall = false;
+        bool boxNextBox = false;
+
+        if (checkKeyDown(playerId)) {
+            y = player->y + PLAYER_SIZE;
+            key = 0;
+            boxNextWall = nextIsWall(x, PLAYER_SIZE + y, wallsCoordinates);
+            boxNextBox = nextIsBox(x, PLAYER_SIZE + y, boxesCoordinates);
+        } else if (checkKeyUp(playerId)) {
+            y = player->y - PLAYER_SIZE;
+            key = 1;
+            boxNextWall = nextIsWall(x, y - PLAYER_SIZE, wallsCoordinates);
+            boxNextBox = nextIsBox(x, y - PLAYER_SIZE, boxesCoordinates);
+        } else if (checkKeyRight(playerId)) {
+            x = player->x + PLAYER_SIZE;
+            key = 2;
+            boxNextWall = nextIsWall(x + PLAYER_SIZE, y, wallsCoordinates);
+            boxNextBox = nextIsBox(x +  PLAYER_SIZE, y, boxesCoordinates);
+        } else if (checkKeyLeft(playerId)) {
+            x = player->x - PLAYER_SIZE;
+            key = 3;
+            boxNextWall = nextIsWall( x - PLAYER_SIZE, y, wallsCoordinates);
+            boxNextBox = nextIsBox(x - PLAYER_SIZE, y, boxesCoordinates);
+        }
+        if (playerId < 4) {
+            playerId++;
+        }
+
+
+        //0 && 440 == 440 880 == 920
+        if (!nextIsWall(x, y, wallsCoordinates) && key != -1 && !won) {
+            if (!nextIsBox(x,y, boxesCoordinates)) {
+                movePlayer(*player, boxesCoordinates, 0, screenWidth, screenHeight, key);
+            } else {
+                if (!boxNextWall && !boxNextBox) {
+                    movePlayer(*player, boxesCoordinates, 0, screenWidth, screenHeight, key);
+                    for (int i = 0; i < boxesCoordinates.size(); i++)
+                    {
+                    moveBox(*player, boxesCoordinates, i, screenWidth, screenHeight, key);
+                    }
+                }
+            }
+        }
+    }
+
+    //----------------------------------------------------------------------------------
+
+    // Draw
+    //----------------------------------------------------------------------------------
+    ClearBackground(RAYWHITE);
+
+    // Draw full scene with first camera
+
+    for (const auto& coord : flooringCoordinates) {
+        DrawTexture(textures.flooring, coord->x, coord->y, WHITE);
+    }
+    for (const auto& coord : finalPositionsCoordinates) {
+        DrawTexture(textures.target, coord->x, coord->y, WHITE);
+    }
+    for (const auto& coord : playersCoordinates) {
+        DrawTexture(textures.player, coord->x, coord->y, WHITE);
+    }
+    for (const auto& coord : boxesCoordinates) {
+        DrawTexture(textures.box, coord->x, coord->y, WHITE);
+    }
     for (const auto& wallCoord : wallsCoordinates) {
-        DrawTexture(textures.wall, wallCoord.x, wallCoord.y, RAYWHITE);
+        DrawTexture(textures.wall, wallCoord->x, wallCoord->y, RAYWHITE);
     }
     EndMode2D();
 
@@ -283,39 +323,27 @@ void Level::render() {
 
     EndTextureMode();
 
-    //std::cout << playerCoordinates.x << " == "<< finalPositionsCoordinates[0].x << " && " << playerCoordinates.y << " == " << finalPositionsCoordinates[0].y << std::endl;
-    if (playersCoordinates[0]-> x + PLAYER_SIZE/2 == finalPositionsCoordinates[0].x && playersCoordinates[0]-> y - PLAYER_SIZE/2 == finalPositionsCoordinates[0].y) {
-        bool exitWindowRequested = false;   // Flag to request window to exit
-        bool exitWindow = false;    // Flag to set window to exit
-        // Update
-        //----------------------------------------------------------------------------------
-        // Detect if X-button or KEY_ESCAPE have been pressed to close window
-        if (WindowShouldClose() || IsKeyPressed(KEY_ESCAPE)) exitWindowRequested = true;
+    if (won) {
+        WaitTime(0.2);
 
-        if (exitWindowRequested)
-        {
-            // A request for close window has been issued, we can save data before closing
-            // or just show a message asking for confirmation
+        currentLevel++;
 
-            if (IsKeyPressed(KEY_Y)) exitWindow = true;
-            else if (IsKeyPressed(KEY_N)) exitWindowRequested = false;
+        initLevel(currentLevel);
+        std::cout << "newLevelLoaded";
+        won = false;
+        return;
+    }
+
+    //std::cout << boxesCoordinates[0]-> x << " == "<< finalPositionsCoordinates[0]->x << " && " << boxesCoordinates[0]-> y << " == " << finalPositionsCoordinates[0]->y << std::endl;
+    int boxatFinal = 0;
+    for (const auto& finalP : finalPositionsCoordinates) {
+        for (const auto& box : boxesCoordinates) {
+            if (box-> x  == finalP->x && box-> y  == finalP->y) {
+                boxatFinal++;
+            }
         }
-        //----------------------------------------------------------------------------------
-
-        // Draw
-        //----------------------------------------------------------------------------------
-        BeginDrawing();
-
-        ClearBackground(RAYWHITE);
-
-        if (exitWindowRequested)
-        {
-            DrawRectangle(0, 100, screenWidth, 200, BLACK);
-            DrawText("Are you sure you want to exit program? [Y/N]", screenWidth/2, screenHeight/2, 30, WHITE);
-        }
-        else DrawText("First level won!", screenWidth/2-100, screenHeight/2.5, 20, BLACK);
-
-        EndDrawing();
-        //----------------------------------------------------------------------------------
+    }
+    if (boxatFinal == finalPositionsCoordinates.size()) {
+        won = true;
     }
 }

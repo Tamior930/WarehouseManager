@@ -54,7 +54,7 @@ void SceneMainMenu::EmptyFunctionTMP() {
 void SceneMainMenu::_LoadScene()
 {
     Level *level;
-    level = new Level(ASSETS_PATH"level1");
+    level = new Level();
     SceneManager::LoadScene(level);
 }
 
