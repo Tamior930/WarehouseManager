@@ -9,9 +9,9 @@ Textures LoadTextures(const std::string& assetsPath, const int playerSize, int c
     Textures textures;
     int PLAYER_SIZE = playerSize;
     // Load images
-    currentLevel = currentLevel % 4;
+    currentLevel = currentLevel % 3;
     if(currentLevel == 0)
-    {currentLevel++;}
+    {currentLevel = 3;}
 
     Image wallI = LoadImage((assetsPath + "wall/" + std::to_string(currentLevel) + "/wall.png").c_str());
     Image playerI = LoadImage((assetsPath + "character/" + std::to_string(currentLevel) + "/character.png").c_str());

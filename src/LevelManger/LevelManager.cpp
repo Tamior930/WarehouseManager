@@ -100,7 +100,7 @@ void LevelManager::processDataFromVector(const std::vector<std::vector<int>> & d
 
 
                 case 0:
-                    std::cout << "case0 playerCoordinates at" << collumcounter << "and" << rowcounter << std::endl;
+                    std::cout << "case0 flooring at" << collumcounter << "and" << rowcounter << std::endl;
 
                     v = new Vector2();
                     v -> x = collumcounter * box_size;
@@ -109,7 +109,7 @@ void LevelManager::processDataFromVector(const std::vector<std::vector<int>> & d
                     //functionA();
                     break;
                 case 1:
-                    std::cout << "case1 playerCoordinates at" << collumcounter << "and" << rowcounter << std::endl;
+                    std::cout << "case1 playerCoordinates&flooringCoordinates at" << collumcounter << "and" << rowcounter << std::endl;
 
                     v = new Vector2();
                     v -> x = collumcounter * box_size;
@@ -121,7 +121,7 @@ void LevelManager::processDataFromVector(const std::vector<std::vector<int>> & d
                     flooringCoordinates.push_back(v);//functionA();
                     break;
                 case 2:
-                    std::cout << "case2 blue square at"  << collumcounter << "and" << rowcounter  << std::endl;
+                    std::cout << "case2 wallsCoordinates at"  << collumcounter << "and" << rowcounter  << std::endl;
 
                     v = new Vector2();
                     v -> x = collumcounter * box_size;
@@ -130,7 +130,7 @@ void LevelManager::processDataFromVector(const std::vector<std::vector<int>> & d
                     //functionB();
                     break;
                 case 3:
-                    std::cout << "case3 yellow square at"  << collumcounter << "and" << rowcounter  << std::endl;
+                    std::cout << "case3 boxesCoordinates and flooringCoordinates at"  << collumcounter << "and" << rowcounter  << std::endl;
 
                     v = new Vector2();
                     v -> x = collumcounter * box_size;
@@ -143,7 +143,7 @@ void LevelManager::processDataFromVector(const std::vector<std::vector<int>> & d
                     //functionC();
                     break;
                 case 4:
-                    std::cout << "case4 red square at"  << collumcounter << "and" << rowcounter << std::endl;
+                    std::cout << "case4 finalPositionCoordinates at "  << collumcounter << "and" << rowcounter << std::endl;
 
                     v = new Vector2();
                     v -> x = collumcounter * box_size;
@@ -153,12 +153,20 @@ void LevelManager::processDataFromVector(const std::vector<std::vector<int>> & d
                     //functionC();
                     break;
                 case 5:
-                    std::cout << "case5" << std::endl;
+                    std::cout << "case4 finalPositionCoordinates, boxesCoordinates and flooringCoordinates at "  << collumcounter << "and" << rowcounter << std::endl;
+                    v = new Vector2();
+                    v -> x = collumcounter * box_size;
+                    v -> y = rowcounter * box_size;
+                    finalPositionsCoordinates.push_back(v);
+                    v = new Vector2();
+                    v -> x = collumcounter * box_size;
+                    v -> y = rowcounter * box_size;
+                    boxesCoordinates.push_back(v);
+                    v = new Vector2();
+                    v -> x = collumcounter * box_size;
+                    v -> y = rowcounter * box_size;
+                    flooringCoordinates.push_back(v);
 
-                    //v = new Vector2();
-                    //v -> x = collumcounter * box_size;
-                    //v -> y = rowcounter * box_size;
-                    //functionC();
                     break;
                 case 6:
                     std::cout << "case6" << std::endl;
@@ -179,9 +187,9 @@ void LevelManager::processDataFromVector(const std::vector<std::vector<int>> & d
         {maxrowcounter=rowcounter;}
     }
     //optional screensizechange based on levelsize
-    /*
-    int screenWidth = maxcollumcounter*40;
-    int screenHeight = maxrowcounter*40;
+
+    int screenWidth = maxcollumcounter*box_size;
+    int screenHeight = maxrowcounter*box_size;
     SetWindowSize(screenWidth, screenHeight);
-     */
+
 }
