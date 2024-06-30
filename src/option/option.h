@@ -25,6 +25,7 @@ public:
 
     static int GetScreenWidth() { return screenWidth; }
     static int GetScreenHeight() { return screenHeight; }
+    static int getIndex();
 
 private:
     void initializeButtons();

@@ -7,11 +7,21 @@
 #include "../LevelManger/LevelManager.h"
 #include <iostream>
 #include "../util/GUIManager.h"
-#define PLAYER_SIZE 40
 
 Level::Level(): wall(), box_texture(), player_texture() {
-    screenWidth = 1280;
-    screenHeight = 720;
+    screenWidth = static_cast<float>(Options::GetScreenWidth());
+    screenHeight = static_cast<float>(Options::GetScreenHeight());
+    switch (Options::getIndex())
+    {
+        case 0:
+            PLAYER_SIZE = 25;
+            break;
+        case 2:
+            PLAYER_SIZE = 60;
+            break;
+        default:
+            PLAYER_SIZE = 40;;
+    }
     currentLevel = 1;
     initLevel(currentLevel);
 

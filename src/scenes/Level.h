@@ -8,6 +8,7 @@
 
 #include "Scene.h"
 #include "GraphicsLoader.h"
+#include "../option/option.h"
 #include "raylib.h"
 
 
@@ -36,8 +37,9 @@ class Level  : public Scene{
     bool checkKeyLeft(int index);
 
 private:
-    float screenWidth = 1280;
-    float screenHeight = 720;
+    float screenWidth;
+    float screenHeight;
+    float PLAYER_SIZE;
     std::vector<Vector2*> playersCoordinates;
     //ToDo: boxesCoordinates, finalPositionsCoordinates, wallsCoordinates umbauen mit Pointer wie playersCoordinates
     std::vector<Vector2*> boxesCoordinates;

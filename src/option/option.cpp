@@ -95,12 +95,16 @@ void Options::ButtonResolution()
     updateResolution();
 }
 
+int Options::getIndex() {
+    return index;
+}
+
 void Options::updateResolution()
 {
     switch (index)
     {
         case 0:
-            changeResolution(800, 600); break;
+            changeResolution(800, 450); break;
         case 1:
             changeResolution(1280, 720); break;
         case 2:
