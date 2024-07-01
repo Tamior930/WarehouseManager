@@ -4,11 +4,14 @@
 
 Options::Options()
 {
+    std::cout << "create options\n";
     initializeButtons();
+    _backgroundImage = Options::LoadBackgroundImage(ASSETS_PATH);
 }
 
 Options::~Options()
 {
+    std::cout << "delete options\n";
     cleanupButtons();
 }
 
@@ -29,10 +32,27 @@ void Options::cleanupButtons()
 
 void Options::render()
 {
-    ClearBackground(DARKGRAY);
+    ClearBackground(BLUE);
+    DrawTexture(_backgroundImage, 0, 0, WHITE);
     DrawText("Options", screenWidth / 2 - MeasureText("Options", 40) / 2, 50, 40, BLACK);
 
+    if (_reloadImage == 1)
+    {
+        //important stuff2
+        UnloadTexture(_backgroundImage);
+        _backgroundImage = Options::LoadBackgroundImage(ASSETS_PATH);
+        _reloadImage = 0;
+    }
+
     renderButtons();
+}
+Texture2D Options::LoadBackgroundImage(const std::string& assetsPath)
+{
+    Image background = LoadImage((assetsPath + "background.png").c_str());
+    ImageResize(&background, Options::GetScreenWidth(), Options::GetScreenHeight());
+    Texture2D backgroundImage = LoadTextureFromImage(background);
+    UnloadImage(background);
+    return backgroundImage;
 }
 
 void Options::renderButtons()
@@ -119,6 +139,7 @@ void Options::changeResolution(int width, int height)
     screenHeight = height;
     CloseWindow();
     InitWindow(screenWidth, screenHeight, "Warehouse Manager");
+    _reloadImage = 1;
     updateButtonPositions();
 }
 
@@ -141,7 +162,7 @@ void Options::updateButtonPositions()
 
 void Options::OpenKeybindings()
 {
-    SceneManager::LoadScene(new KeybindingScreen());
+    //SceneManager::LoadScene(new KeybindingScreen());
 }
 
 void Options::ButtonFullscreen()
@@ -163,5 +184,5 @@ void Options::ButtonFullscreen()
 
 void Options::Back()
 {
-    SceneManager::LoadScene(new SceneMainMenu("Warehouse Manager"));
+    SceneManager::LoadScene(new SceneMainMenu ("Warehouse Manager"));
 }
