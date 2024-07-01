@@ -5,11 +5,13 @@
 Options::Options()
 {
     initializeButtons();
+    _backgroundImage = Options::LoadBackgroundImage(ASSETS_PATH);
 }
 
 Options::~Options()
 {
     cleanupButtons();
+    UnloadTexture(_backgroundImage);
 }
 
 void Options::initializeButtons()
@@ -32,7 +34,23 @@ void Options::render()
     ClearBackground(DARKGRAY);
     DrawText("Options", screenWidth / 2 - MeasureText("Options", 40) / 2, 50, 40, BLACK);
 
+    if (_reloadImage == 1)
+    {
+        UnloadTexture(_backgroundImage);
+        _backgroundImage = Options::LoadBackgroundImage(ASSETS_PATH);
+        _reloadImage = 0;
+    }
+
     renderButtons();
+    }
+    Texture2D Options::LoadBackgroundImage(const std::string& assetsPath)
+    {
+        Image background = LoadImage((assetsPath + "background.png").c_str());
+        ImageResize(&background, Options::GetScreenWidth(), Options::GetScreenHeight());
+        Texture2D backgroundImage = LoadTextureFromImage(background);
+        UnloadImage(background);
+        return backgroundImage;
+
 }
 
 void Options::renderButtons()
@@ -119,6 +137,7 @@ void Options::changeResolution(int width, int height)
     screenHeight = height;
     CloseWindow();
     InitWindow(screenWidth, screenHeight, "Warehouse Manager");
+    _reloadImage = 1;
     updateButtonPositions();
 }
 

@@ -28,7 +28,7 @@ int main() {
         UpdateMusicStream(music);
 
         BeginDrawing();
-        ClearBackground(DARKGRAY);
+        //ClearBackground(DARKGRAY);
 
         if (SceneManager::SceneLoaded()) {
             SceneManager::Update();

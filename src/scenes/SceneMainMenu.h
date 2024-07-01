@@ -24,11 +24,13 @@ public:
     void updateButtonPositions();
 
 private:
+    static Texture2D LoadBackgroundImage(const std::string& assetsPath);
     std::string title;
     Button* Quit;
     Button* Credit;
     Button* Option;
     Button* Play;
+    Texture _backgroundTexture;
 
     void initButtons();
     static void ButtonQuit();
