@@ -358,7 +358,7 @@ void Level::render() {
     }
     if (playersCoordinates.size() >= 4)
     {
-        drawPlayerMovementKeyText("PLAYER2: I/J/K/L to move",10, 40, 160, 10, 10, _textResolution);
+        drawPlayerMovementKeyText("PLAYER2: I/J/K/L to move",10, 40, 160, 10, 10, Options::getIndex()+1);
 
 /*        DrawRectangle(10, 40, 160, 10, Fade(RAYWHITE, 0.6f));
         DrawText("PLAYER2: I/J/K/L to move", 10, 40, 10, MAROON);*/
