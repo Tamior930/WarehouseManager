@@ -2,6 +2,7 @@
 #define OPTION_H
 
 #include <cmath>
+#include <map>
 #include <raylib.h>
 #include "../gui/Button.h"
 #include "../scenes/Scene.h"
@@ -20,6 +21,7 @@ public:
     static void ButtonVSync();
     static void ButtonResolution();
     static void OpenKeybindings();
+
     static void ButtonFullscreen();
     static void Back();
 

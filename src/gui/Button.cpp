@@ -40,7 +40,13 @@ void Button::render(void (*_setup)())
     if (hovered) {
         if(IsMouseButtonPressed(0))
         {
-            onclick(_setup);
+            _setup();
         }
     }
+}
+
+void Button::setText(const std::string& newText) {
+    delete[] name;
+    name = new char[newText.length() + 1];
+    std::strcpy(name, newText.c_str());
 }
