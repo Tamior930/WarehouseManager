@@ -327,10 +327,26 @@ void Level::render() {
         DrawTexture(textures.wall, wallCoord->x, wallCoord->y, RAYWHITE);
     }
     EndMode2D();
-
-    DrawRectangle(0, 0, GetScreenWidth() / 2, 30, Fade(RAYWHITE, 0.6f));
-    DrawText("PLAYER1: W/S/A/D to move", 10, 10, 10, MAROON);
-
+    if (playersCoordinates.size() >= 1)
+    {
+        DrawRectangle(10, 10, 160, 10, Fade(RAYWHITE, 0.6f));
+        DrawText("PLAYER1: W/S/A/D to move", 10, 10, 10, MAROON);
+    }
+    if (playersCoordinates.size() >= 2)
+    {
+        DrawRectangle(10, 20, 160, 10, Fade(RAYWHITE, 0.6f));
+        DrawText("PLAYER2: Arrowkeys to move", 10, 20, 10, MAROON);
+    }
+    if (playersCoordinates.size() >= 3)
+    {
+        DrawRectangle(10, 30, 160, 10, Fade(RAYWHITE, 0.6f));
+        DrawText("PLAYER2: T/F/G/H to move", 10, 30, 10, MAROON);
+    }
+    if (playersCoordinates.size() >= 4)
+    {
+        DrawRectangle(10, 40, 160, 10, Fade(RAYWHITE, 0.6f));
+        DrawText("PLAYER2: I/J/K/L to move", 10, 40, 10, MAROON);
+    }
     EndTextureMode();
 
     if (won) {
