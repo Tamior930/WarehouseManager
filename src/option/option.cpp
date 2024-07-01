@@ -4,14 +4,12 @@
 
 Options::Options()
 {
-    std::cout << "create options\n";
     initializeButtons();
     _backgroundImage = Options::LoadBackgroundImage(ASSETS_PATH);
 }
 
 Options::~Options()
 {
-    std::cout << "delete options\n";
     cleanupButtons();
 }
 
@@ -183,5 +181,5 @@ void Options::ButtonFullscreen()
 
 void Options::Back()
 {
-    SceneManager::LoadScene(new SceneMainMenu ("Warehouse Manager"));
+    SceneManager::LoadScene(new SceneMainMenu("Warehouse Manager"));
 }

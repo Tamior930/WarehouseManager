@@ -41,6 +41,7 @@ public:
     ~Button();
 
     void SetPosition(int X, int Y);
+    void setText(const std::string& newText);
     int isHovered(int X, int Y) const;
     void render(void (*_setup)());
 
@@ -50,9 +51,6 @@ private:
     int width = 250, height = 75;
     bool hovered = false;
 
-    void onclick(void (*_setup)()) {
-        _setup();
-    }
 };
 
 #endif // BUTTON_H
