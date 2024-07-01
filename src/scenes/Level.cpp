@@ -245,6 +245,16 @@ bool Level::checkKeyLeft(int index) {
     return IsKeyPressed(keysLeft[index]) || IsKeyPressedRepeat(keysLeft[index]);
 }
 
+void Level::drawPlayerMovementKeyText(const char *_text, int _posX, int _posY, int _width, int _height, int _fontSize, int textResolution)
+{
+    if (_text == nullptr) {
+        std::cout << "Error: Textpointer is Null";
+        return;
+    }
+    DrawRectangle(_posX, _posY*textResolution, _width*textResolution, _height*textResolution, Fade(RAYWHITE, 0.6f));
+    DrawText(_text, _posX, _posY*textResolution, _fontSize*textResolution, MAROON);
+};
+
 void Level::render() {
     Scene::render();
 
@@ -327,25 +337,44 @@ void Level::render() {
         DrawTexture(textures.wall, wallCoord->x, wallCoord->y, RAYWHITE);
     }
     EndMode2D();
+    int _textResolution;
+    if(Options::getIndex() == 0)
+    {
+        _textResolution = 1;
+    }
+    if(Options::getIndex() == 1)
+    {
+        _textResolution = 2;
+    }
+    if(Options::getIndex() == 2)
+    {
+        _textResolution = 3;
+    }
     if (playersCoordinates.size() >= 1)
     {
-        DrawRectangle(10, 10, 160, 10, Fade(RAYWHITE, 0.6f));
-        DrawText("PLAYER1: W/S/A/D to move", 10, 10, 10, MAROON);
+        drawPlayerMovementKeyText("PLAYER1: W/S/A/D to move",10, 10, 160, 10, 10, _textResolution);
+        /*DrawRectangle(10, 10, 160, 10, Fade(RAYWHITE, 0.6f));
+        DrawText("PLAYER1: W/S/A/D to move", 10, 10, 10, MAROON);*/
     }
     if (playersCoordinates.size() >= 2)
     {
-        DrawRectangle(10, 20, 160, 10, Fade(RAYWHITE, 0.6f));
-        DrawText("PLAYER2: Arrowkeys to move", 10, 20, 10, MAROON);
+        drawPlayerMovementKeyText("PLAYER2: Arrowkeys to move",10, 20, 160, 10, 10, _textResolution);
+        /*DrawRectangle(10, 20, 160, 10, Fade(RAYWHITE, 0.6f));
+        DrawText("PLAYER2: Arrowkeys to move", 10, 20, 10, MAROON);*/
     }
     if (playersCoordinates.size() >= 3)
     {
-        DrawRectangle(10, 30, 160, 10, Fade(RAYWHITE, 0.6f));
-        DrawText("PLAYER2: T/F/G/H to move", 10, 30, 10, MAROON);
+        drawPlayerMovementKeyText("PLAYER2: T/F/G/H to move",10, 30, 160, 10, 10, _textResolution);
+
+/*        DrawRectangle(10, 30, 160, 10, Fade(RAYWHITE, 0.6f));
+        DrawText("PLAYER2: T/F/G/H to move", 10, 30, 10, MAROON);*/
     }
     if (playersCoordinates.size() >= 4)
     {
-        DrawRectangle(10, 40, 160, 10, Fade(RAYWHITE, 0.6f));
-        DrawText("PLAYER2: I/J/K/L to move", 10, 40, 10, MAROON);
+        drawPlayerMovementKeyText("PLAYER2: I/J/K/L to move",10, 40, 160, 10, 10, _textResolution);
+
+/*        DrawRectangle(10, 40, 160, 10, Fade(RAYWHITE, 0.6f));
+        DrawText("PLAYER2: I/J/K/L to move", 10, 40, 10, MAROON);*/
     }
     EndTextureMode();
 
