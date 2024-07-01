@@ -127,6 +127,10 @@ void LevelManager::processDataFromVector(const std::vector<std::vector<int>> & d
                     v -> x = collumcounter * box_size;
                     v -> y = rowcounter * box_size;
                     wallsCoordinates.push_back(v);
+                    v = new Vector2();
+                    v -> x = collumcounter * box_size;
+                    v -> y = rowcounter * box_size;
+                    flooringCoordinates.push_back(v);
                     //functionB();
                     break;
                 case 3:
