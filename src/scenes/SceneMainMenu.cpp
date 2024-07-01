@@ -4,21 +4,16 @@
 #include <utility>
 
 SceneMainMenu::SceneMainMenu() {
-    std::cout << "create MainMenu?\n";
-    // be aware this constructor might not be accessed
-    std::cout << "constructor without parameters\n";
     initButtons();
     _backgroundTexture = LoadBackgroundImage(ASSETS_PATH);
 }
 
 SceneMainMenu::SceneMainMenu(std::string title) : title(std::move(title)) {
-    std::cout << "create MainMenu\n";
     initButtons();
     _backgroundTexture = LoadBackgroundImage(ASSETS_PATH);
 }
 
 SceneMainMenu::~SceneMainMenu() {
-    std::cout << "delete MainMenu\n";
     UnloadTexture(_backgroundTexture);
 }
 

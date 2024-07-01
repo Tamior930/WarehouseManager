@@ -4,14 +4,12 @@
 
 Options::Options()
 {
-    std::cout << "create options\n";
     initializeButtons();
     _backgroundImage = Options::LoadBackgroundImage(ASSETS_PATH);
 }
 
 Options::~Options()
 {
-    std::cout << "delete options\n";
     cleanupButtons();
     UnloadTexture(_backgroundImage);
 }
