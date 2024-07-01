@@ -41,6 +41,8 @@ private:
     static std::string getKeyName(KeyboardKey key);
     static void onButtonClick();
     static void setAlertMessage(const std::string& message);
+    static Texture2D LoadBackgroundImage(const std::string& assetsPath);
+    Texture _backgroundImage;
 };
 
 #endif // WAREHOUSEMANAGER_KEYBINDING_SCREEN_H

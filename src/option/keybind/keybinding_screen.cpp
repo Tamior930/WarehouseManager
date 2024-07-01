@@ -2,6 +2,7 @@
 
 KeybindingScreen::KeybindingScreen()
 {
+    _backgroundImage = KeybindingScreen::LoadBackgroundImage(ASSETS_PATH);
     initializeKeybindings();
 }
 
@@ -11,6 +12,7 @@ KeybindingScreen::~KeybindingScreen()
         delete pair.second;
     }
     delete backButton;
+    UnloadTexture(_backgroundImage);
 }
 
 std::string KeybindingScreen::getKeyName(KeyboardKey key) {
@@ -77,7 +79,7 @@ void KeybindingScreen::initializeKeybindings()
 
 void KeybindingScreen::render()
 {
-    ClearBackground(WHITE);
+    DrawTexture(_backgroundImage, 0, 0, WHITE);
     DrawText("Keybindings", Options::GetScreenWidth() / 2 - MeasureText("Keybindings", 40) / 2, 50, 40, BLACK);
     renderButtons();
     handleInput();
@@ -169,4 +171,12 @@ void KeybindingScreen::setAlertMessage(const std::string& message)
 void KeybindingScreen::Back()
 {
     SceneManager::LoadScene(new Options());
+}
+
+Texture2D KeybindingScreen::LoadBackgroundImage(const string &assetsPath) {
+    Image background = LoadImage((assetsPath + "background.png").c_str());
+    ImageResize(&background, Options::GetScreenWidth(), Options::GetScreenHeight());
+    Texture2D backgroundImage = LoadTextureFromImage(background);
+    UnloadImage(background);
+    return backgroundImage;
 }
