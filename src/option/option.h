@@ -49,6 +49,10 @@ private:
     inline static int screenWidth = 1280;
     inline static int screenHeight = 720;
     inline static const char* resolutions[3] = { "800x600", "1280x720", "1920x1080" };
+
+    static Texture2D LoadBackgroundImage(const std::string& assetsPath);
+    Texture _backgroundImage;
+    inline static int _reloadImage;
 };
 
 #endif // OPTION_H

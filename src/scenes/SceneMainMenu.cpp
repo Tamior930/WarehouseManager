@@ -4,18 +4,22 @@
 #include <utility>
 
 SceneMainMenu::SceneMainMenu() {
-    std::cout << "create MainMenu?\n";
+    // be aware this constructor might not be accessed
+    std::cout << "constructor without parameters\n";
     initButtons();
-    _texture = LoadBackgroundImage(ASSETS_PATH);
+    _backgroundTexture = LoadBackgroundImage(ASSETS_PATH);
 }
 
 SceneMainMenu::SceneMainMenu(std::string title) : title(std::move(title)) {
     std::cout << "create MainMenu\n";
     initButtons();
+    _backgroundTexture = LoadBackgroundImage(ASSETS_PATH);
+
 }
 
 SceneMainMenu::~SceneMainMenu() {
     std::cout << "delete MainMenu\n";
+    UnloadTexture(_backgroundTexture);
 }
 
 void SceneMainMenu::initButtons() {
@@ -26,7 +30,7 @@ void SceneMainMenu::initButtons() {
     int buttonX = screenWidth / 2 - buttonWidth / 2;
 
     int buttonYIncrement = screenHeight * 0.15; // 15% of screen height for vertical spacing
-    int startY = screenHeight * 0.3; // Start at 30% down the screen
+    int startY = screenHeight * 0.2; // Start at 30% down the screen
 
     Play = new Button("Play", buttonX, startY, buttonWidth, buttonHeight);
     Option = new Button("Options", buttonX, startY + buttonYIncrement, buttonWidth, buttonHeight);
@@ -37,9 +41,10 @@ void SceneMainMenu::initButtons() {
 Texture2D SceneMainMenu::LoadBackgroundImage(const std::string& assetsPath)
 {
     Image background = LoadImage((assetsPath + "background.png").c_str());
-    Texture2D whyyounotloading = LoadTextureFromImage(background);
+    ImageResize(&background, Options::GetScreenWidth(), Options::GetScreenHeight());
+    Texture2D backgroundImage = LoadTextureFromImage(background);
     UnloadImage(background);
-    return whyyounotloading;
+    return backgroundImage;
 }
 
 
@@ -87,8 +92,7 @@ void SceneMainMenu::render() {
 
     DrawText("", 2, Options::GetScreenHeight() - 22, 20, WHITE);
     DrawRectangle(Options::GetScreenWidth() / 3, 90, Options::GetScreenWidth() / 3, 2, BLACK);
-    //Keine Ahnung wieso das nicht lädt
-    DrawTexture(_texture, GetScreenWidth()/2, GetScreenHeight()/2, WHITE);
+    DrawTexture(_backgroundTexture, 0, 0, WHITE);
 
     Play->render(_LoadScene);
     Option->render(_LoadOption);

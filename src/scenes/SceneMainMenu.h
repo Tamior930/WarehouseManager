@@ -22,7 +22,7 @@ public:
 
     void render();
     void updateButtonPositions();
-
+    static Texture2D LoadBackgroundImage(const std::string& assetsPath);
 private:
     std::string title;
     Button* Quit;
@@ -37,8 +37,7 @@ private:
     static void _LoadScene();
     static void _LoadOption();
 
-    Texture2D LoadBackgroundImage(const std::string& assetsPath);
-    Texture _texture;
+    Texture _backgroundTexture;
 };
 
 #endif // SCENEMAINMENU_H
