@@ -141,7 +141,7 @@ void Options::updateButtonPositions()
 
 void Options::OpenKeybindings()
 {
-    //SceneManager::LoadScene(new KeybindingScreen());
+    SceneManager::LoadScene(new KeybindingScreen());
 }
 
 void Options::ButtonFullscreen()

@@ -33,7 +33,7 @@ private:
     static void renderButtons();
     static void handleInput();
     static void updateKeyBinding(KeyboardKey key, int newKey);
-    static string getKeyName(KeyboardKey key);
+    static std::string getKeyName(KeyboardKey key);
     static void onButtonClick();
 };
 

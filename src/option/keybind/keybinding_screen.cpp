@@ -101,7 +101,11 @@ void KeybindingScreen::updateKeyBinding(KeyboardKey key, int newKey)
 {
     if (keyButtons.find(key) != keyButtons.end())
     {
-        keyButtons[key]->setText(getKeyName(static_cast<KeyboardKey>(newKey)));
+        if (newKey < KEY_RIGHT || newKey > KEY_UP) {
+            keyButtons[key]->setText(TextFormat("%c", newKey));
+        } else {
+            keyButtons[key]->setText(getKeyName(KeyboardKey(newKey)));
+        }
         currentKeybindings[key] = KeyboardKey(newKey);
     }
 }
