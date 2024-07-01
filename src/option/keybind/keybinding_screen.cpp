@@ -13,7 +13,6 @@ KeybindingScreen::~KeybindingScreen()
     delete backButton;
 }
 
-// Funktion zur Umwandlung eines KeyboardKey in einen String
 std::string KeybindingScreen::getKeyName(KeyboardKey key) {
     switch (key) {
         case KEY_W: return "W";
@@ -32,7 +31,7 @@ std::string KeybindingScreen::getKeyName(KeyboardKey key) {
         case KEY_J: return "J";
         case KEY_K: return "K";
         case KEY_L: return "L";
-        default: return "?"; // Standardfall für nicht erkannte Tasten
+        default: return "?";
     }
 }
 
@@ -53,16 +52,24 @@ void KeybindingScreen::initializeKeybindings()
             {KEY_I, KEY_J, KEY_K, KEY_L}
     };
 
-    for (auto row = 0; row < buttonsInOrder.size(); ++row) {
-        for (auto col = 0; col < buttonsInOrder[row].size(); ++col) {
-            int currentX = buttonXStart + col * buttonXIncrement;
-            int currentY = buttonYStart + row * buttonYIncrement;
+    try {
+        for (auto row = 0; row < buttonsInOrder.size(); ++row) {
+            for (auto col = 0; col < buttonsInOrder[row].size(); ++col) {
+                int currentX = buttonXStart + col * buttonXIncrement;
+                int currentY = buttonYStart + row * buttonYIncrement;
 
-            KeyboardKey key = buttonsInOrder[row][col];
-            std::string keyName = getKeyName(currentKeybindings[key]);
+                KeyboardKey key = buttonsInOrder[row][col];
+                std::string keyName = getKeyName(currentKeybindings[key]);
 
-            keyButtons[key] = new Button(keyName, currentX, currentY, buttonWidth, buttonHeight);
+                if (keyButtons.find(key) != keyButtons.end()) {
+                    throw std::runtime_error("Keybinding conflict detected!");
+                }
+
+                keyButtons[key] = new Button(keyName, currentX, currentY, buttonWidth, buttonHeight);
+            }
         }
+    } catch (const std::runtime_error& e) {
+        setAlertMessage("Error initializing keybindings: " + std::string(e.what()));
     }
 
     backButton = new Button("Back", Options::GetScreenWidth() / 2 - 125, Options::GetScreenHeight() - 100, 250, 75);
@@ -70,9 +77,24 @@ void KeybindingScreen::initializeKeybindings()
 
 void KeybindingScreen::render()
 {
+    ClearBackground(WHITE);
     DrawText("Keybindings", Options::GetScreenWidth() / 2 - MeasureText("Keybindings", 40) / 2, 50, 40, BLACK);
     renderButtons();
     handleInput();
+
+    if (showAlertFlag)
+    {
+        if (GetTime() - alertStartTime >= ALERT_DURATION)
+        {
+            showAlertFlag = false;
+        }
+        else
+        {
+            DrawRectangle(50, Options::GetScreenHeight() / 2 - 50, Options::GetScreenWidth() - 100, 100, BLACK);
+            DrawRectangleLines(50, Options::GetScreenHeight() / 2 - 50, Options::GetScreenWidth() - 100, 100, WHITE);
+            DrawText(alertMessage.c_str(), Options::GetScreenWidth() / 2 - MeasureText(alertMessage.c_str(), 20) / 2, Options::GetScreenHeight() / 2 - 20, 20, WHITE);
+        }
+    }
 }
 
 void KeybindingScreen::renderButtons()
@@ -91,14 +113,29 @@ void KeybindingScreen::handleInput()
         int newKey = GetKeyPressed();
         if (newKey != 0)
         {
-            updateKeyBinding(waitingForKey, newKey);
-            waitingForKey = KEY_NULL;
+            try
+            {
+                updateKeyBinding(waitingForKey, newKey);
+                waitingForKey = KEY_NULL;
+            }
+            catch (const std::runtime_error& e)
+            {
+                setAlertMessage("Error updating keybinding: " + std::string(e.what()));
+            }
         }
     }
 }
 
 void KeybindingScreen::updateKeyBinding(KeyboardKey key, int newKey)
 {
+    for (const auto& pair : currentKeybindings)
+    {
+        if (pair.second == newKey && pair.first != key)
+        {
+            throw std::runtime_error("Keybinding conflict detected!");
+        }
+    }
+
     if (keyButtons.find(key) != keyButtons.end())
     {
         if (newKey < KEY_RIGHT || newKey > KEY_UP) {
@@ -120,6 +157,13 @@ void KeybindingScreen::onButtonClick()
             break;
         }
     }
+}
+
+void KeybindingScreen::setAlertMessage(const std::string& message)
+{
+    alertMessage = message;
+    showAlertFlag = true;
+    alertStartTime = GetTime();
 }
 
 void KeybindingScreen::Back()
