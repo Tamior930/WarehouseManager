@@ -35,6 +35,7 @@ class Level  : public Scene{
     bool checkKeyDown(int index);
     bool checkKeyRight(int index);
     bool checkKeyLeft(int index);
+    void drawPlayerMovementKeyText(const char *text, int _posX, int _posY, int _width, int _height, int _fontSize, int textResolution);
 
 private:
     float screenWidth;
