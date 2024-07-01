@@ -38,6 +38,7 @@ void Options::render()
 
     if (_reloadImage == 1)
     {
+        //important stuff
         UnloadTexture(_backgroundImage);
         _backgroundImage = Options::LoadBackgroundImage(ASSETS_PATH);
         _reloadImage = 0;
