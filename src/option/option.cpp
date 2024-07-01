@@ -10,6 +10,7 @@ Options::Options()
 
 Options::~Options()
 {
+    UnloadTexture(_backgroundImage);
     cleanupButtons();
 }
 
