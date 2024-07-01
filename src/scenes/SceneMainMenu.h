@@ -36,6 +36,9 @@ private:
     static void EmptyFunctionTMP();
     static void _LoadScene();
     static void _LoadOption();
+
+    Texture2D LoadBackgroundImage(const std::string& assetsPath);
+    Texture _texture;
 };
 
 #endif // SCENEMAINMENU_H

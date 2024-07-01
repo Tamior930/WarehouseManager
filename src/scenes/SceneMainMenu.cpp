@@ -6,6 +6,7 @@
 SceneMainMenu::SceneMainMenu() {
     std::cout << "create MainMenu?\n";
     initButtons();
+    _texture = LoadBackgroundImage(ASSETS_PATH);
 }
 
 SceneMainMenu::SceneMainMenu(std::string title) : title(std::move(title)) {
@@ -32,6 +33,15 @@ void SceneMainMenu::initButtons() {
     Credit = new Button("Credits", buttonX, startY + 2 * buttonYIncrement, buttonWidth, buttonHeight);
     Quit = new Button("Quit", buttonX, startY + 3 * buttonYIncrement, buttonWidth, buttonHeight);
 }
+
+Texture2D SceneMainMenu::LoadBackgroundImage(const std::string& assetsPath)
+{
+    Image background = LoadImage((assetsPath + "background.png").c_str());
+    Texture2D whyyounotloading = LoadTextureFromImage(background);
+    UnloadImage(background);
+    return whyyounotloading;
+}
+
 
 void SceneMainMenu::updateButtonPositions() {
     int screenWidth = Options::GetScreenWidth();
@@ -77,6 +87,8 @@ void SceneMainMenu::render() {
 
     DrawText("", 2, Options::GetScreenHeight() - 22, 20, WHITE);
     DrawRectangle(Options::GetScreenWidth() / 3, 90, Options::GetScreenWidth() / 3, 2, BLACK);
+    //Keine Ahnung wieso das nicht lädt
+    DrawTexture(_texture, GetScreenWidth()/2, GetScreenHeight()/2, WHITE);
 
     Play->render(_LoadScene);
     Option->render(_LoadOption);
