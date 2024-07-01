@@ -11,16 +11,11 @@
 Level::Level(): wall(), box_texture(), player_texture() {
     screenWidth = static_cast<float>(Options::GetScreenWidth());
     screenHeight = static_cast<float>(Options::GetScreenHeight());
-    switch (Options::getIndex())
-    {
-        case 0:
-            PLAYER_SIZE = 25;
-            break;
-        case 2:
-            PLAYER_SIZE = 60;
-            break;
-        default:
-            PLAYER_SIZE = 40;;
+    float calcPlayer_size = screenWidth / 32;
+    if ((screenHeight / 18) == calcPlayer_size) {
+        this -> PLAYER_SIZE = calcPlayer_size;
+    } else {
+        this -> PLAYER_SIZE = 40;
     }
     currentLevel = 1;
     initLevel(currentLevel);

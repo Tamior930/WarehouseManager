@@ -191,9 +191,10 @@ void LevelManager::processDataFromVector(const std::vector<std::vector<int>> & d
         {maxrowcounter=rowcounter;}
     }
     //optional screensizechange based on levelsize
-
-/*    int screenWidth = maxcollumcounter*box_size;
+    /*
+    int screenWidth = maxcollumcounter*box_size;
     int screenHeight = maxrowcounter*box_size;
-    SetWindowSize(screenWidth, screenHeight);*/
+    SetWindowSize(screenWidth, screenHeight);
+    */
 
 }
