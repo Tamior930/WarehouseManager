@@ -53,6 +53,7 @@ private:
     static Texture2D LoadBackgroundImage(const std::string& assetsPath);
     Texture _backgroundImage;
     inline static int _reloadImage;
+    //committochangefile
 };
 
 #endif // OPTION_H
