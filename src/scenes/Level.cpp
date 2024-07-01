@@ -17,9 +17,33 @@ Level::Level(): wall(), box_texture(), player_texture() {
     } else {
         this -> PLAYER_SIZE = 40;
     }
+
+    //KEY_W, KEY_UP, KEY_T, KEY_I
+    keysUp[0] = KeybindingScreen::getCurrentKeybindings()[KEY_W];
+    keysUp[1] = KeybindingScreen::getCurrentKeybindings()[KEY_UP];
+    keysUp[2] = KeybindingScreen::getCurrentKeybindings()[KEY_T];
+    keysUp[3] = KeybindingScreen::getCurrentKeybindings()[KEY_I];
+
+    //KEY_S, KEY_DOWN, KEY_G, KEY_K
+    keysDown[0] = KeybindingScreen::getCurrentKeybindings()[KEY_S];
+    keysDown[1] = KeybindingScreen::getCurrentKeybindings()[KEY_DOWN];
+    keysDown[2] = KeybindingScreen::getCurrentKeybindings()[KEY_G];
+    keysDown[3] = KeybindingScreen::getCurrentKeybindings()[KEY_K];
+
+    //KEY_D, KEY_RIGHT, KEY_H, KEY_L
+    keysRight[0] = KeybindingScreen::getCurrentKeybindings()[KEY_D];
+    keysRight[1] = KeybindingScreen::getCurrentKeybindings()[KEY_RIGHT];
+    keysRight[2] = KeybindingScreen::getCurrentKeybindings()[KEY_H];
+    keysRight[3] = KeybindingScreen::getCurrentKeybindings()[KEY_L];
+
+    //KEY_A, KEY_LEFT, KEY_F, KEY_J
+    keysLeft[0] = KeybindingScreen::getCurrentKeybindings()[KEY_A];
+    keysLeft[1] = KeybindingScreen::getCurrentKeybindings()[KEY_LEFT];
+    keysLeft[2] = KeybindingScreen::getCurrentKeybindings()[KEY_F];
+    keysLeft[3] = KeybindingScreen::getCurrentKeybindings()[KEY_J];
+
     currentLevel = 1;
     initLevel(currentLevel);
-
 }
 
 Level::~Level() {

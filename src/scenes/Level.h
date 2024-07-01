@@ -53,10 +53,10 @@ private:
     Texture2D wall;
     Texture2D box_texture;
     Texture player_texture;
-    KeyboardKey keysUp[4] = {KEY_W, KEY_UP, KEY_T, KEY_I};
-    KeyboardKey keysDown[4] = {KEY_S, KEY_DOWN, KEY_G, KEY_K};
-    KeyboardKey keysRight[4] = {KEY_D, KEY_RIGHT, KEY_H, KEY_L};
-    KeyboardKey keysLeft[4] = {KEY_A, KEY_LEFT, KEY_F, KEY_J};
+    KeyboardKey keysUp[4];
+    KeyboardKey keysDown[4];
+    KeyboardKey keysRight[4];
+    KeyboardKey keysLeft[4];
 
 
     Textures textures;

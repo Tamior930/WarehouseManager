@@ -128,6 +128,10 @@ void KeybindingScreen::handleInput()
     }
 }
 
+std::map<KeyboardKey, KeyboardKey> KeybindingScreen::getCurrentKeybindings() {
+    return currentKeybindings;
+}
+
 void KeybindingScreen::updateKeyBinding(KeyboardKey key, int newKey)
 {
     for (const auto& pair : currentKeybindings)

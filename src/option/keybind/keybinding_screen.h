@@ -16,6 +16,7 @@ public:
 
     void render() override;
     static void Back();
+    static std::map<KeyboardKey, KeyboardKey> getCurrentKeybindings();
 
 private:
     inline static std::map<KeyboardKey, Button*> keyButtons;
