@@ -5,16 +5,21 @@
 
 SceneMainMenu::SceneMainMenu() {
     std::cout << "create MainMenu?\n";
+    // be aware this constructor might not be accessed
+    std::cout << "constructor without parameters\n";
     initButtons();
+    _backgroundTexture = LoadBackgroundImage(ASSETS_PATH);
 }
 
 SceneMainMenu::SceneMainMenu(std::string title) : title(std::move(title)) {
     std::cout << "create MainMenu\n";
     initButtons();
+    _backgroundTexture = LoadBackgroundImage(ASSETS_PATH);
 }
 
 SceneMainMenu::~SceneMainMenu() {
     std::cout << "delete MainMenu\n";
+    UnloadTexture(_backgroundTexture);
 }
 
 void SceneMainMenu::initButtons() {
@@ -25,12 +30,21 @@ void SceneMainMenu::initButtons() {
     int buttonX = screenWidth / 2 - buttonWidth / 2;
 
     int buttonYIncrement = screenHeight * 0.15; // 15% of screen height for vertical spacing
-    int startY = screenHeight * 0.3; // Start at 30% down the screen
+    int startY = screenHeight * 0.2; // Start at 30% down the screen
 
     Play = new Button("Play", buttonX, startY, buttonWidth, buttonHeight);
     Option = new Button("Options", buttonX, startY + buttonYIncrement, buttonWidth, buttonHeight);
     Credit = new Button("Credits", buttonX, startY + 2 * buttonYIncrement, buttonWidth, buttonHeight);
     Quit = new Button("Quit", buttonX, startY + 3 * buttonYIncrement, buttonWidth, buttonHeight);
+}
+
+Texture2D SceneMainMenu::LoadBackgroundImage(const std::string& assetsPath)
+{
+    Image background = LoadImage((assetsPath + "background.png").c_str());
+    ImageResize(&background, Options::GetScreenWidth(), Options::GetScreenHeight());
+    Texture2D backgroundImage = LoadTextureFromImage(background);
+    UnloadImage(background);
+    return backgroundImage;
 }
 
 void SceneMainMenu::updateButtonPositions() {
@@ -77,6 +91,7 @@ void SceneMainMenu::render() {
 
     DrawText("", 2, Options::GetScreenHeight() - 22, 20, WHITE);
     DrawRectangle(Options::GetScreenWidth() / 3, 90, Options::GetScreenWidth() / 3, 2, BLACK);
+    DrawTexture(_backgroundTexture, 0, 0, WHITE);
 
     Play->render(_LoadScene);
     Option->render(_LoadOption);

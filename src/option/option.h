@@ -4,6 +4,7 @@
 #include <cmath>
 #include <map>
 #include <raylib.h>
+#include <map>
 #include "../gui/Button.h"
 #include "../scenes/Scene.h"
 #include "../scenes/SceneMainMenu.h"
@@ -54,7 +55,6 @@ private:
     static Texture2D LoadBackgroundImage(const std::string& assetsPath);
     Texture _backgroundImage;
     inline static int _reloadImage;
-    //committochangefile
 };
 
 #endif // OPTION_H

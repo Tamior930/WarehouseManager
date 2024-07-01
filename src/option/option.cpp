@@ -13,6 +13,7 @@ Options::~Options()
 {
     std::cout << "delete options\n";
     cleanupButtons();
+    UnloadTexture(_backgroundImage);
 }
 
 void Options::initializeButtons()
@@ -38,21 +39,21 @@ void Options::render()
 
     if (_reloadImage == 1)
     {
-        //important stuff2
         UnloadTexture(_backgroundImage);
         _backgroundImage = Options::LoadBackgroundImage(ASSETS_PATH);
         _reloadImage = 0;
     }
 
     renderButtons();
-}
-Texture2D Options::LoadBackgroundImage(const std::string& assetsPath)
-{
-    Image background = LoadImage((assetsPath + "background.png").c_str());
-    ImageResize(&background, Options::GetScreenWidth(), Options::GetScreenHeight());
-    Texture2D backgroundImage = LoadTextureFromImage(background);
-    UnloadImage(background);
-    return backgroundImage;
+    }
+    Texture2D Options::LoadBackgroundImage(const std::string& assetsPath)
+    {
+        Image background = LoadImage((assetsPath + "background.png").c_str());
+        ImageResize(&background, Options::GetScreenWidth(), Options::GetScreenHeight());
+        Texture2D backgroundImage = LoadTextureFromImage(background);
+        UnloadImage(background);
+        return backgroundImage;
+
 }
 
 void Options::renderButtons()
@@ -162,7 +163,7 @@ void Options::updateButtonPositions()
 
 void Options::OpenKeybindings()
 {
-    //SceneManager::LoadScene(new KeybindingScreen());
+    SceneManager::LoadScene(new KeybindingScreen());
 }
 
 void Options::ButtonFullscreen()

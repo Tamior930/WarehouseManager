@@ -29,12 +29,18 @@ private:
             {KEY_I, KEY_I}, {KEY_J, KEY_J}, {KEY_K, KEY_K}, {KEY_L, KEY_L}
     };
 
+    inline static std::string alertMessage;
+    inline static bool showAlertFlag = false;
+    inline static float alertStartTime = 0.0f;
+    inline static const float ALERT_DURATION = 2.0f;
+
     static void initializeKeybindings();
     static void renderButtons();
     static void handleInput();
     static void updateKeyBinding(KeyboardKey key, int newKey);
     static std::string getKeyName(KeyboardKey key);
     static void onButtonClick();
+    static void setAlertMessage(const std::string& message);
 };
 
 #endif // WAREHOUSEMANAGER_KEYBINDING_SCREEN_H

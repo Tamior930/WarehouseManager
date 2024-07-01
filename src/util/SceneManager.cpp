@@ -4,8 +4,8 @@
 
 #include "SceneManager.h"
 
-void SceneManager::LoadScene(Scene *_scene) {
-
+void SceneManager::LoadScene(Scene *_scene)
+{
     delete scene;
     scene = _scene;
     isSceneLoaded = 1;
