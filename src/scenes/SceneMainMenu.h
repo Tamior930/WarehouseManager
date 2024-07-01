@@ -18,6 +18,7 @@ class SceneMainMenu : public Scene {
 public:
     SceneMainMenu();
     SceneMainMenu(std::string title);
+    ~SceneMainMenu();
 
     void render();
     void updateButtonPositions();

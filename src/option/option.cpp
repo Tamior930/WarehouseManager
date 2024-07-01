@@ -4,11 +4,13 @@
 
 Options::Options()
 {
+    std::cout << "create options\n";
     initializeButtons();
 }
 
 Options::~Options()
 {
+    std::cout << "delete options\n";
     cleanupButtons();
 }
 
@@ -163,5 +165,5 @@ void Options::ButtonFullscreen()
 
 void Options::Back()
 {
-    SceneManager::LoadScene(new SceneMainMenu("Warehouse Manager"));
+    SceneManager::LoadScene(new SceneMainMenu ("Warehouse Manager"));
 }

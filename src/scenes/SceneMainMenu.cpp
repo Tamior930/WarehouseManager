@@ -4,11 +4,17 @@
 #include <utility>
 
 SceneMainMenu::SceneMainMenu() {
+    std::cout << "create MainMenu?\n";
     initButtons();
 }
 
 SceneMainMenu::SceneMainMenu(std::string title) : title(std::move(title)) {
+    std::cout << "create MainMenu\n";
     initButtons();
+}
+
+SceneMainMenu::~SceneMainMenu() {
+    std::cout << "delete MainMenu\n";
 }
 
 void SceneMainMenu::initButtons() {
