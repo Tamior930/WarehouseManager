@@ -22,25 +22,25 @@ void Credits::InitializeDevelopers()
     int screenHeight = Options::GetScreenHeight();
     int buttonWidth = screenWidth * 0.4;
     int buttonHeight = screenHeight * 0.1;
-    int startY = screenHeight * 0.3;
+    int startY = screenHeight * 0.15;
 
     developers = {
             {"Alexander Kurz", "Lead Programmer: Implemented core game mechanics",
                     std::make_shared<Button>("Alexander Kurz", screenWidth/2 - buttonWidth/2, startY, buttonWidth, buttonHeight)},
             {"Melvin Douglas Boening", "Programmer: Implemented GraphicsLoader, LevelManager, helped on Level.Cpp",
-                    std::make_shared<Button>("Melvin Douglas Boenin", screenWidth/2 - buttonWidth/2, startY + buttonHeight * 1.5, buttonWidth, buttonHeight)},
+                    std::make_shared<Button>("Melvin Douglas Boening", screenWidth/2 - buttonWidth/2, startY + buttonHeight * 1.3, buttonWidth, buttonHeight)},
             {"Berkant Er", "Programmer: Implemented Option and Keybinding Logic",
-                    std::make_shared<Button>("Berkant Er", screenWidth/2 - buttonWidth/2, startY + buttonHeight * 3, buttonWidth, buttonHeight)},
+                    std::make_shared<Button>("Berkant Er", screenWidth/2 - buttonWidth/2, startY + buttonHeight * 2.6, buttonWidth, buttonHeight)},
             {"Lisa Mayrhofer", "Level Designer: Designed and balanced all game levels",
-                    std::make_shared<Button>("Lisa Mayrhofer", screenWidth/2 - buttonWidth/2, startY + buttonHeight * 4.5, buttonWidth, buttonHeight)},
+                    std::make_shared<Button>("Lisa Mayrhofer", screenWidth/2 - buttonWidth/2, startY + buttonHeight * 3.9, buttonWidth, buttonHeight)},
             {"Johanna Nasr", "Level Designer: Designed and balanced all game levels",
-                    std::make_shared<Button>("Johanna Nasr", screenWidth/2 - buttonWidth/2, startY + buttonHeight * 6, buttonWidth, buttonHeight)}
+                    std::make_shared<Button>("Johanna Nasr", screenWidth/2 - buttonWidth/2, startY + buttonHeight * 5.2, buttonWidth, buttonHeight)}
     };
 
     backButton = std::make_unique<Button>(
             "Back",
             screenWidth/2 - buttonWidth/2,
-            startY + buttonHeight * 6,
+            startY + buttonHeight * 6.5,
             buttonWidth,
             buttonHeight
     );
