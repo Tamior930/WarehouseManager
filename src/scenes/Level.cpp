@@ -217,6 +217,15 @@ bool Level::nextIsBox(float x, float y, const std::vector<Vector2*>& boxesCoordi
     }
     return false;
 }
+bool Level::nextIsPlayer(float x, float y, const std::vector<Vector2*>& playerCoordinates) {
+    for (int i = 0 ; i < playerCoordinates.size(); i++) {
+        //std::cout << x << " == "<< wallsCoordinates[i].x << " && " << y << " == " << wallsCoordinates[i].y << std::endl;
+        if (x == playerCoordinates[i]->x && y == playerCoordinates[i]->y) {
+            return true;
+        }
+    }
+    return false;
+}
 
 void Level::drawBorder() {
     //DrawRectangleRec({0, 0, PLAYER_SIZE, PLAYER_SIZE}, BLUE);
@@ -289,27 +298,33 @@ void Level::render() {
         int key = -1;
         bool boxNextWall = false;
         bool boxNextBox = false;
+        bool boxNextPlayer = false;
 
         if (checkKeyDown(playerId)) {
             y = player->y + PLAYER_SIZE;
             key = 0;
             boxNextWall = nextIsWall(x, PLAYER_SIZE + y, wallsCoordinates);
             boxNextBox = nextIsBox(x, PLAYER_SIZE + y, boxesCoordinates);
+            boxNextPlayer = nextIsPlayer(x, PLAYER_SIZE + y, playersCoordinates);
         } else if (checkKeyUp(playerId)) {
             y = player->y - PLAYER_SIZE;
             key = 1;
             boxNextWall = nextIsWall(x, y - PLAYER_SIZE, wallsCoordinates);
             boxNextBox = nextIsBox(x, y - PLAYER_SIZE, boxesCoordinates);
+            boxNextPlayer = nextIsPlayer(x, y - PLAYER_SIZE, playersCoordinates);
         } else if (checkKeyRight(playerId)) {
             x = player->x + PLAYER_SIZE;
             key = 2;
             boxNextWall = nextIsWall(x + PLAYER_SIZE, y, wallsCoordinates);
             boxNextBox = nextIsBox(x +  PLAYER_SIZE, y, boxesCoordinates);
+            boxNextPlayer = nextIsPlayer(x + PLAYER_SIZE, y, playersCoordinates);
+
         } else if (checkKeyLeft(playerId)) {
             x = player->x - PLAYER_SIZE;
             key = 3;
             boxNextWall = nextIsWall( x - PLAYER_SIZE, y, wallsCoordinates);
             boxNextBox = nextIsBox(x - PLAYER_SIZE, y, boxesCoordinates);
+            boxNextPlayer = nextIsPlayer(x - PLAYER_SIZE, y, playersCoordinates);
         }
         if (playerId < 4) {
             playerId++;
@@ -317,11 +332,11 @@ void Level::render() {
 
 
         //0 && 440 == 440 880 == 920
-        if (!nextIsWall(x, y, wallsCoordinates) && key != -1 && !won) {
+        if (!nextIsWall(x, y, wallsCoordinates) && !nextIsPlayer(x, y, playersCoordinates) && key != -1 && !won) {
             if (!nextIsBox(x,y, boxesCoordinates)) {
                 movePlayer(*player, boxesCoordinates, 0, screenWidth, screenHeight, key);
             } else {
-                if (!boxNextWall && !boxNextBox) {
+                if (!boxNextWall && !boxNextBox && !boxNextPlayer) {
                     movePlayer(*player, boxesCoordinates, 0, screenWidth, screenHeight, key);
                     for (int i = 0; i < boxesCoordinates.size(); i++)
                     {

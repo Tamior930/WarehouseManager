@@ -29,14 +29,15 @@ class Level  : public Scene{
                           key);
     bool nextIsWall(float x, float y, const std::vector<Vector2*> &wallsCoordinates);
     bool nextIsBox(float x, float y, const std::vector<Vector2*> &boxesCoordinates);
+    bool nextIsPlayer(float x, float y, const std::vector<Vector2 *> &playerCoordinates);
     void drawCoordinates();
     void drawBorder();
     bool checkKeyUp(int index);
     bool checkKeyDown(int index);
     bool checkKeyRight(int index);
     bool checkKeyLeft(int index);
-    void drawPlayerMovementKeyText(const char *text, int _posX, int _posY, int _width, int _height, int _fontSize, int textResolution);
 
+    void drawPlayerMovementKeyText(const char *text, int _posX, int _posY, int _width, int _height, int _fontSize, int textResolution);
 private:
     float screenWidth;
     float screenHeight;
@@ -48,16 +49,17 @@ private:
     //walls, on the field
     std::vector<Vector2*> wallsCoordinates;
     std::vector<Vector2*> flooringCoordinates;
-    bool won = false;
 
+    bool won = false;
     Texture2D wall;
     Texture2D box_texture;
     Texture player_texture;
     KeyboardKey keysUp[4];
     KeyboardKey keysDown[4];
     KeyboardKey keysRight[4];
-    KeyboardKey keysLeft[4];
 
+
+    KeyboardKey keysLeft[4];
 
     Textures textures;
 };
