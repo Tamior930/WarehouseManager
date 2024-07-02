@@ -72,7 +72,7 @@ Level::~Level() {
 
 void Level::initLevel(int currentLevel)
 {
-    filename = std::string(ASSETS_PATH) + "level" + std::to_string(currentLevel);
+    filename = std::string(ASSETS_PATH) + "level" + std::to_string(currentLevel) + ".txt";
     LevelManager lm;
     auto data = lm.readDataFromFile(filename);
     // create a vector
