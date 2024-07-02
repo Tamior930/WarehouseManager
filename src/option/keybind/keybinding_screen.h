@@ -5,9 +5,13 @@
 #include "../../scenes/Scene.h"
 #include "../../scenes/SceneMainMenu.h"
 #include "raylib.h"
+#include <memory>
 #include <map>
 #include <string>
 #include <vector>
+#include <functional>
+
+#define MAX_KEY_CODE 255
 
 class KeybindingScreen : public Scene {
 public:
@@ -19,8 +23,8 @@ public:
     static std::map<KeyboardKey, KeyboardKey> getCurrentKeybindings();
 
 private:
-    inline static std::map<KeyboardKey, Button*> keyButtons;
-    inline static Button* backButton;
+    inline static std::map<KeyboardKey, std::unique_ptr<Button>> keyButtons;
+    inline static std::unique_ptr<Button> backButton;
     inline static KeyboardKey waitingForKey = KEY_NULL;
 
     inline static std::map<KeyboardKey, KeyboardKey> currentKeybindings = {
@@ -34,6 +38,7 @@ private:
     inline static bool showAlertFlag = false;
     inline static float alertStartTime = 0.0f;
     inline static const float ALERT_DURATION = 2.0f;
+    inline static bool isInitialized = false;
 
     static void initializeKeybindings();
     static void renderButtons();

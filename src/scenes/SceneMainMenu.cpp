@@ -15,6 +15,10 @@ SceneMainMenu::SceneMainMenu(std::string title) : title(std::move(title)) {
 
 SceneMainMenu::~SceneMainMenu() {
     UnloadTexture(_backgroundTexture);
+    delete Play;
+    delete Option;
+    delete Credit;
+    delete Quit;
 }
 
 void SceneMainMenu::initButtons() {
@@ -67,8 +71,10 @@ void SceneMainMenu::BacktoMenu() {
     GUIManager::ShouldClose = true;
 }
 
-void SceneMainMenu::EmptyFunctionTMP() {
-    // Placeholder function, no implementation needed
+void SceneMainMenu::LoadCredit()
+{
+    auto* config = new Credits();
+    SceneManager::LoadScene(config);
 }
 
 void SceneMainMenu::_LoadScene() {
@@ -90,6 +96,6 @@ void SceneMainMenu::render() {
 
     Play->render(_LoadScene);
     Option->render(_LoadOption);
-    Credit->render(EmptyFunctionTMP);
+    Credit->render(LoadCredit);
     Quit->render(ButtonQuit);
 }

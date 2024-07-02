@@ -5,7 +5,7 @@
 Options::Options()
 {
     initializeButtons();
-    _backgroundImage = Options::LoadBackgroundImage(ASSETS_PATH);
+    _backgroundImage = LoadBackgroundImage(ASSETS_PATH);
 }
 
 Options::~Options()
@@ -38,19 +38,20 @@ void Options::render()
     if (_reloadImage == 1)
     {
         UnloadTexture(_backgroundImage);
-        _backgroundImage = Options::LoadBackgroundImage(ASSETS_PATH);
+        _backgroundImage = LoadBackgroundImage(ASSETS_PATH);
         _reloadImage = 0;
     }
 
     renderButtons();
-    }
-    Texture2D Options::LoadBackgroundImage(const std::string& assetsPath)
-    {
-        Image background = LoadImage((assetsPath + "background.png").c_str());
-        ImageResize(&background, Options::GetScreenWidth(), Options::GetScreenHeight());
-        Texture2D backgroundImage = LoadTextureFromImage(background);
-        UnloadImage(background);
-        return backgroundImage;
+}
+
+Texture2D Options::LoadBackgroundImage(const std::string& assetsPath)
+{
+    Image background = LoadImage((assetsPath + "background.png").c_str());
+    ImageResize(&background, Options::GetScreenWidth(), Options::GetScreenHeight());
+    Texture2D backgroundImage = LoadTextureFromImage(background);
+    UnloadImage(background);
+    return backgroundImage;
 
 }
 

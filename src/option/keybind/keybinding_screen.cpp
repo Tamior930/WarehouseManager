@@ -2,16 +2,20 @@
 
 KeybindingScreen::KeybindingScreen()
 {
-    _backgroundImage = KeybindingScreen::LoadBackgroundImage(ASSETS_PATH);
-    initializeKeybindings();
+    _backgroundImage = LoadBackgroundImage(ASSETS_PATH);
+    if (!isInitialized)
+    {
+        initializeKeybindings();
+        isInitialized = true;
+    }
 }
 
 KeybindingScreen::~KeybindingScreen()
 {
-    for (auto& pair : keyButtons) {
-        delete pair.second;
-    }
-    delete backButton;
+//    for (auto& pair : keyButtons) {
+//        delete pair.second;
+//    }
+//    delete backButton;
     UnloadTexture(_backgroundImage);
 }
 
@@ -54,9 +58,12 @@ void KeybindingScreen::initializeKeybindings()
             {KEY_I, KEY_J, KEY_K, KEY_L}
     };
 
-    try {
-        for (auto row = 0; row < buttonsInOrder.size(); ++row) {
-            for (auto col = 0; col < buttonsInOrder[row].size(); ++col) {
+    try
+    {
+        for (auto row = 0; row < buttonsInOrder.size(); ++row)
+        {
+            for (auto col = 0; col < buttonsInOrder[row].size(); ++col)
+            {
                 int currentX = buttonXStart + col * buttonXIncrement;
                 int currentY = buttonYStart + row * buttonYIncrement;
 
@@ -67,14 +74,16 @@ void KeybindingScreen::initializeKeybindings()
                     throw std::runtime_error("Keybinding conflict detected!");
                 }
 
-                keyButtons[key] = new Button(keyName, currentX, currentY, buttonWidth, buttonHeight);
+                keyButtons[key] = std::make_unique<Button>(keyName, currentX, currentY, buttonWidth, buttonHeight);
             }
         }
-    } catch (const std::runtime_error& e) {
+    }
+    catch (const std::runtime_error& e)
+    {
         setAlertMessage("Error initializing keybindings: " + std::string(e.what()));
     }
 
-    backButton = new Button("Back", Options::GetScreenWidth() / 2 - 125, Options::GetScreenHeight() - 100, 250, 75);
+    backButton = std::make_unique<Button>("Back", Options::GetScreenWidth() / 2 - 125, Options::GetScreenHeight() - 100, 250, 75);
 }
 
 void KeybindingScreen::render()
@@ -128,7 +137,8 @@ void KeybindingScreen::handleInput()
     }
 }
 
-std::map<KeyboardKey, KeyboardKey> KeybindingScreen::getCurrentKeybindings() {
+std::map<KeyboardKey, KeyboardKey> KeybindingScreen::getCurrentKeybindings()
+{
     return currentKeybindings;
 }
 
@@ -144,9 +154,12 @@ void KeybindingScreen::updateKeyBinding(KeyboardKey key, int newKey)
 
     if (keyButtons.find(key) != keyButtons.end())
     {
-        if (newKey < KEY_RIGHT || newKey > KEY_UP) {
+        if (newKey < KEY_RIGHT || newKey > KEY_UP)
+        {
             keyButtons[key]->setText(TextFormat("%c", newKey));
-        } else {
+        }
+        else
+        {
             keyButtons[key]->setText(getKeyName(KeyboardKey(newKey)));
         }
         currentKeybindings[key] = KeyboardKey(newKey);
@@ -177,7 +190,8 @@ void KeybindingScreen::Back()
     SceneManager::LoadScene(new Options());
 }
 
-Texture2D KeybindingScreen::LoadBackgroundImage(const string &assetsPath) {
+Texture2D KeybindingScreen::LoadBackgroundImage(const std::string& assetsPath)
+{
     Image background = LoadImage((assetsPath + "background.png").c_str());
     ImageResize(&background, Options::GetScreenWidth(), Options::GetScreenHeight());
     Texture2D backgroundImage = LoadTextureFromImage(background);

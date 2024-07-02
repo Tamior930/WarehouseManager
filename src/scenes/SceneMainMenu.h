@@ -13,6 +13,7 @@
 #include "../gui/Button.h"
 #include "../util/GUIManager.h"
 #include "../util/SceneManager.h"
+#include "../credit/credit.h"
 
 class SceneMainMenu : public Scene {
 public:
@@ -35,7 +36,7 @@ private:
     void initButtons();
     static void ButtonQuit();
     static void BacktoMenu();
-    static void EmptyFunctionTMP();
+    static void LoadCredit();
     static void _LoadScene();
     static void _LoadOption();
 };
