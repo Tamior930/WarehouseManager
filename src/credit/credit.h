@@ -1,4 +1,3 @@
-//
 // Created by erber on 02.07.2024.
 //
 
@@ -10,11 +9,10 @@
 #include "../option/option.h"
 #include "../scenes/Scene.h"
 #include <memory>
-#include <chrono>
+#include <vector>
 
 class Credits : public Scene {
 private:
-
     struct Developer {
         std::string name;
         std::string task;
@@ -23,16 +21,15 @@ private:
 
     std::unique_ptr<Button> backButton;
     inline static std::vector<Developer> developers;
-    //Texture2D backgroundTexture;
-
-    inline static bool showDetails = false;
     inline static int selectedDeveloper = -1;
 
-    std::chrono::steady_clock::time_point popupStartTime;
-    const std::chrono::seconds popupDuration{2};
+    // Timing variables for the pop-up
+    bool _popupVisible;
+    float _popupStartTime;
+    const float POPUP_DURATION = 2.0f; // 2 seconds
 
     void InitializeDevelopers();
-    static void ShowDeveloperDetails();
+    static void ShowDeveloperDetails(); // Changed from static to non-static
 
     static Texture2D LoadBackgroundImage(const std::string& assetsPath);
     Texture _backgroundImage;
@@ -42,12 +39,10 @@ public:
     Credits();
     ~Credits();
 
-    void Update();
     void render() override;
 
+    void TriggerPopup(); // Method to trigger the pop-up
     static void Back();
-    void ResetPopup();
 };
 
-
-#endif //WAREHOUSEMANAGER_CREDIT_H
+#endif // WAREHOUSEMANAGER_CREDIT_H

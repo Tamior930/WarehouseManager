@@ -11,8 +11,6 @@
 #include <vector>
 #include <functional>
 
-#define MAX_KEY_CODE 255
-
 class KeybindingScreen : public Scene {
 public:
     KeybindingScreen();
