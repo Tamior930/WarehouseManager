@@ -5,7 +5,9 @@
 #include "util/GUIManager.h"
 //#define ASSETS_PATH "./assets/"
 
+
 int main() {
+    std::cout.sync_with_stdio(false); // otherwise cout will murder the game for some reason, more info (last accesssed 2024-07-02) here https://www.reddit.com/r/cpp_questions/comments/14okbgn/bizarre_problem_with_cout_in_c/ and here https://cplusplus.com/forum/beginner/140381/ .
     SetConfigFlags(FLAG_VSYNC_HINT);
     InitWindow(Options::GetScreenWidth(), Options::GetScreenHeight(), "Warehouse Manager");
 
