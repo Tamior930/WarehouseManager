@@ -2,9 +2,9 @@
 
 A multi-player Sokoban-style puzzle game where players work together to move boxes to their target positions. Built with C++ and Raylib.
 
-![Home Screenshot](https://github.com/if23b269/WarehouseManager/blob/main/res/screenshot.png?raw=true)
+![Home Screenshot](https://github.com/tamior930/WarehouseManager/blob/main/res/screenshot.png?raw=true)
 
-![Gameplay Screenshot](https://github.com/if23b269/WarehouseManager/blob/main/res/gameplay.png?raw=true)
+![Gameplay Screenshot](https://github.com/tamior930/WarehouseManager/blob/main/res/gameplay.png?raw=true)
 
 ## Features
 
@@ -31,7 +31,7 @@ A multi-player Sokoban-style puzzle game where players work together to move box
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/if23b269/WarehouseManager.git
+git clone https://github.com/tamior930/WarehouseManager.git
 ```
 
 2. Open the project directory in CLion
@@ -48,7 +48,7 @@ git clone https://github.com/if23b269/WarehouseManager.git
 1. Download the Code::Blocks version:
 
 ```bash
-curl -L -O https://github.com/if23b269/WarehouseManager/archive/refs/heads/codeBlocks.zip
+curl -L -O https://github.com/tamior930/WarehouseManager/archive/refs/heads/codeBlocks.zip
 ```
 
 2. Extract the downloaded zip file
@@ -77,16 +77,3 @@ Controls can be customized in the options menu.
 ## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-
-## License
-
-[Add your chosen license here]
-
-## Authors
-
-- [@if23b269](https://github.com/if23b269) - Initial work
-
-## Acknowledgments
-
-- Raylib library for providing the graphics framework
-- Original Sokoban game for inspiration
