@@ -48,7 +48,7 @@ git clone https://github.com/tamior930/WarehouseManager.git
 1. Download the Code::Blocks version:
 
 ```bash
-curl -L -O https://github.com/tamior930/WarehouseManager/archive/refs/heads/codeBlocks.zip
+curl -L -O https://github.com/if23b269/WarehouseManager/archive/refs/heads/codeBlocks.zip
 ```
 
 2. Extract the downloaded zip file
