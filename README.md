@@ -2,13 +2,18 @@
 
 A multi-player Sokoban-style puzzle game where players work together to move boxes to their target positions. Built with C++ and Raylib.
 
+![Home Screenshot](https://github.com/if23b269/WarehouseManager/blob/main/res/screenshot.png?raw=true)
+
+![Gameplay Screenshot](https://github.com/if23b269/WarehouseManager/blob/main/res/gameplay.png?raw=true)
+
 ## Features
 
-- Multiple playable levels with increasing difficulty
-- Support for up to 4 players
-- Customizable controls
-- Different visual themes for each level
-- Configurable display settings (resolution, V-sync)
+- 🎮 Multiple playable levels with increasing difficulty
+- 👥 Support for up to 4 players
+- ⌨️ Customizable controls
+- 🎨 Different visual themes for each level
+- ⚙️ Configurable display settings (resolution, V-sync)
+
 
 ## Getting Started
 
@@ -20,7 +25,8 @@ A multi-player Sokoban-style puzzle game where players work together to move box
 
 ### Installation
 
-#### Using CLion
+<details>
+<summary>Using CLion</summary>
 
 1. Clone the repository:
 
@@ -34,25 +40,39 @@ git clone https://github.com/if23b269/WarehouseManager.git
 5. Load the CMake project
 6. Build and run Warehouse Manager
 
-#### Using Code::Blocks
+</details>
+
+<details>
+<summary>Using Code::Blocks</summary>
 
 1. Download the Code::Blocks version:
 
 ```bash
-git clone https://github.com/if23b269/WarehouseManager.git
+curl -L -O https://github.com/if23b269/WarehouseManager/archive/refs/heads/codeBlocks.zip
 ```
 
-2. Extract and open the project in Code::Blocks
-3. Build and run the project
+2. Extract the downloaded zip file
+3. Open Code::Blocks
+4. Go to File -> Open
+5. Navigate to the extracted folder and open the .cbp project file
+6. Build the project (F9)
+7. Run the game (F10)
+
+Note: Make sure you have the MinGW compiler properly configured in Code::Blocks.
+
+</details>
 
 ## Controls
 
-- Player 1: W/S/A/D
-- Player 2: Arrow Keys
-- Player 3: T/F/G/H
-- Player 4: I/J/K/L
+| Player | Movement Keys |
+|--------|--------------|
+| Player 1 | W/S/A/D |
+| Player 2 | Arrow Keys |
+| Player 3 | T/F/G/H |
+| Player 4 | I/J/K/L |
 
 Controls can be customized in the options menu.
+
 
 ## Contributing
 
@@ -61,3 +81,12 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 ## License
 
 [Add your chosen license here]
+
+## Authors
+
+- [@if23b269](https://github.com/if23b269) - Initial work
+
+## Acknowledgments
+
+- Raylib library for providing the graphics framework
+- Original Sokoban game for inspiration
